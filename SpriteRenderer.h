@@ -7,19 +7,25 @@
 constexpr unsigned int FRAMES_SPEED = 4;
 
 class SpriteRenderer {
-    public:
-        SpriteRenderer(int totalSprites, const char *texturePath);
-        ~SpriteRenderer();
-        void advanceSprite();
-        [[nodiscard]] Texture2D getTexture() const;
-        [[nodiscard]] Rectangle getSource() const;
+public:
+    SpriteRenderer(int totalSprites, const char* texturePath);
 
-    private:
-        const unsigned int totalSprites;
-        Texture2D spritesheet{};
-        Rectangle frameRect{};
-        unsigned int currentFrame;
-        unsigned int frameCounter;
+    ~SpriteRenderer();
+
+    void advanceSprite();
+
+    void setSprite(int spriteIndex);
+
+    [[nodiscard]] Texture2D getTexture() const;
+
+    [[nodiscard]] Rectangle getSource() const;
+
+private:
+    const unsigned int totalSprites;
+    Texture2D spritesheet{};
+    Rectangle frameRect{};
+    unsigned int currentFrame;
+    unsigned int frameCounter;
 };
 
 

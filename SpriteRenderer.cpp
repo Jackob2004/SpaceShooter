@@ -1,6 +1,7 @@
 #include "SpriteRenderer.h"
 
-SpriteRenderer::SpriteRenderer(const int totalSprites, const char *texturePath): totalSprites(totalSprites) {
+SpriteRenderer::SpriteRenderer(const int totalSprites, const char* texturePath) :
+    totalSprites(totalSprites) {
     if (totalSprites < 1) throw std::invalid_argument("Total sprites must be at least 1");
 
     spritesheet = LoadTexture(texturePath);
@@ -28,6 +29,12 @@ void SpriteRenderer::advanceSprite() {
     }
 }
 
+void SpriteRenderer::setSprite(const int spriteIndex) {
+    if (spriteIndex > totalSprites || spriteIndex < 0) throw std::invalid_argument("Invalid sprite index");
+    currentFrame = spriteIndex;
+    frameRect.x = static_cast<float>(currentFrame) * frameRect.width;
+}
+
 Texture2D SpriteRenderer::getTexture() const {
     return spritesheet;
 }
@@ -35,4 +42,3 @@ Texture2D SpriteRenderer::getTexture() const {
 Rectangle SpriteRenderer::getSource() const {
     return frameRect;
 }
-
