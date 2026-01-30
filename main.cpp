@@ -1,17 +1,20 @@
 #include <iostream>
-#include <raylib.h>
+
+#include "Game.h"
 
 int main() {
-    const int screenWidth = 800;
-    const int screenHeight = 450;
+    InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Space Shooter");
+    Game game;
 
-    InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
-    SetTargetFPS(75);
+    SetTargetFPS(FPS);
 
     while (!WindowShouldClose()) {
+        game.processInput();
+        game.update();
+
         BeginDrawing();
         ClearBackground(RAYWHITE);
-        DrawText("Hello World!", 20, 20, 20, LIGHTGRAY);
+        game.render();
         EndDrawing();
     }
 
