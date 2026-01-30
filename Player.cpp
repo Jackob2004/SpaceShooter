@@ -1,7 +1,7 @@
 #include "Player.h"
 
-Player::Player(const Vector2 spawPoint) :
-    Entity({spawPoint.x, spawPoint.y, 50, 50},
+Player::Player(const float playerWidth, const float playerHeight, const Vector2 spawPoint) :
+    Entity({spawPoint.x, spawPoint.y, playerWidth, playerHeight},
            std::make_unique<SpriteRenderer>(3, "assets/player/player_ship.png"),
            {0, 0},
            100),
@@ -47,4 +47,21 @@ void Player::render() {
                    {0, 0},
                    0.0f,
                    WHITE);
+}
+
+void Player::setPosition(const Vector2 newPosition) {
+    destinationRect.x = newPosition.x;
+    destinationRect.y = newPosition.y;
+}
+
+Vector2 Player::getPosition() const {
+    return {destinationRect.x, destinationRect.y};
+}
+
+float Player::getPlayerWidth() const {
+    return destinationRect.width;
+}
+
+float Player::getPlayerHeight() const {
+    return destinationRect.height;
 }

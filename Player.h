@@ -7,10 +7,21 @@
 
 class Player : public Entity {
 public:
-    Player(Vector2 spawPoint);
+    Player(float playerWidth, float playerHeight, Vector2 spawPoint);
+
     void processInput();
+
     void update() override;
+
     void render() override;
+
+    void setPosition(Vector2 newPosition);
+
+    [[nodiscard]] Vector2 getPosition() const;
+
+    [[nodiscard]] float getPlayerWidth() const;
+
+    [[nodiscard]] float getPlayerHeight() const;
 
 private:
     enum PlayerSprite {
