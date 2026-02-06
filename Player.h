@@ -15,14 +15,6 @@ public:
 
     void render() override;
 
-    void setPosition(Vector2 newPosition);
-
-    [[nodiscard]] Vector2 getPosition() const;
-
-    [[nodiscard]] float getPlayerWidth() const;
-
-    [[nodiscard]] float getPlayerHeight() const;
-
 private:
     enum PlayerSprite {
         IDLE = 1,
@@ -31,7 +23,7 @@ private:
     };
 
     PlayerSprite playerSprite;
-    std::vector<std::unique_ptr<SpriteRenderer>> boosterRenderers;
+    std::vector<std::unique_ptr<SpriteRenderer> > boosterRenderers;
     Rectangle boostersDestinationRect;
 };
 

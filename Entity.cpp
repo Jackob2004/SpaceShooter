@@ -25,3 +25,29 @@ void Entity::render() {
 bool Entity::isAlive() const {
     return health > 0;
 }
+
+void Entity::setVelocity(const Vector2 updatedVelocity) {
+    velocity.x = updatedVelocity.x;
+    velocity.y = updatedVelocity.y;
+}
+
+SpriteRenderer* Entity::getRenderer() const {
+    return spriteRenderer.get();
+}
+
+void Entity::setPosition(const Vector2 newPosition) {
+    destinationRect.x = newPosition.x;
+    destinationRect.y = newPosition.y;
+}
+
+Vector2 Entity::getPosition() const {
+    return {destinationRect.x, destinationRect.y};
+}
+
+float Entity::getEntityWidth() const {
+    return destinationRect.width;
+}
+
+float Entity::getEntityHeight() const {
+    return destinationRect.height;
+}

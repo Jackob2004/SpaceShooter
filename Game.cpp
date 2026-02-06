@@ -14,8 +14,8 @@ void Game::update() {
     backgroundRenderer->advanceSprite();
     player.update();
 
-    if (player.getPosition().x + player.getPlayerWidth() > SCREEN_WIDTH) {
-        player.setPosition({SCREEN_WIDTH - player.getPlayerWidth(), SCREEN_HEIGHT - 100});
+    if (player.getPosition().x + player.getEntityHeight() > SCREEN_WIDTH) {
+        player.setPosition({SCREEN_WIDTH - player.getEntityWidth(), SCREEN_HEIGHT - 100});
     } else if (player.getPosition().x < 0) {
         player.setPosition({0, SCREEN_HEIGHT - 100});
     }

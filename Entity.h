@@ -16,11 +16,24 @@ public:
 
     [[nodiscard]] bool isAlive() const;
 
-protected:
+    void setPosition(Vector2 newPosition);
+
+    [[nodiscard]] Vector2 getPosition() const;
+
+    [[nodiscard]] float getEntityWidth() const;
+
+    [[nodiscard]] float getEntityHeight() const;
+
+private:
     Rectangle destinationRect;
     std::unique_ptr<SpriteRenderer> spriteRenderer;
     Vector2 velocity;
     unsigned int health;
+
+protected:
+    [[nodiscard]] SpriteRenderer* getRenderer() const;
+
+    void setVelocity(Vector2 updatedVelocity);
 };
 
 
