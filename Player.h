@@ -2,6 +2,7 @@
 #define SPACESHOOTER_PLAYER_H
 
 #include <vector>
+#include <memory>
 
 #include "Entity.h"
 #include "Subject.h"

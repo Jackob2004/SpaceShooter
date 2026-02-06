@@ -1,12 +1,11 @@
 #ifndef SPACESHOOTER_ENTITY_H
 #define SPACESHOOTER_ENTITY_H
 
-#include <memory>
 #include "SpriteRenderer.h"
 
 class Entity {
 public:
-    Entity(Rectangle destinationRect, std::unique_ptr<SpriteRenderer> renderer, Vector2 velocity, int health);
+    Entity(Rectangle destinationRect, SpriteRenderer *renderer, Vector2 velocity, int health);
 
     virtual ~Entity();
 
@@ -15,6 +14,10 @@ public:
     virtual void render();
 
     [[nodiscard]] virtual bool isAlive() const = 0;
+
+    [[nodiscard]] Entity *getNext() const;
+
+    void setNext(Entity *next);
 
     void setPosition(Vector2 newPosition);
 
@@ -25,9 +28,14 @@ public:
     [[nodiscard]] float getEntityHeight() const;
 
 private:
-    Rectangle destinationRect;
-    std::unique_ptr<SpriteRenderer> spriteRenderer;
-    Vector2 velocity;
+    union {
+        struct {
+            Rectangle destinationRect;
+            SpriteRenderer *spriteRenderer;
+            Vector2 velocity;
+        };
+        Entity* next;
+    };
 
 protected:
     [[nodiscard]] SpriteRenderer* getRenderer() const;

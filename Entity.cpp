@@ -1,16 +1,18 @@
 #include "Entity.h"
 
 Entity::Entity(const Rectangle destinationRect,
-               std::unique_ptr<SpriteRenderer> renderer,
+               SpriteRenderer* renderer,
                const Vector2 velocity,
                const int health) :
     destinationRect(destinationRect),
-    spriteRenderer(std::move(renderer)),
+    spriteRenderer(renderer),
     velocity(velocity) {
     if (health < 1) throw std::invalid_argument("health must be greater than 0");
 }
 
-Entity::~Entity() = default;
+Entity::~Entity() {
+    delete spriteRenderer;
+}
 
 void Entity::update() {
     destinationRect.x += velocity.x * GetFrameTime();
@@ -21,13 +23,21 @@ void Entity::render() {
     DrawTexturePro(spriteRenderer->getTexture(), spriteRenderer->getSource(), destinationRect, {0, 0}, 0.0f, WHITE);
 }
 
+Entity* Entity::getNext() const {
+    return next;
+}
+
+void Entity::setNext(Entity* next) {
+    this->next = next;
+}
+
 void Entity::setVelocity(const Vector2 updatedVelocity) {
     velocity.x = updatedVelocity.x;
     velocity.y = updatedVelocity.y;
 }
 
 SpriteRenderer* Entity::getRenderer() const {
-    return spriteRenderer.get();
+    return spriteRenderer;
 }
 
 void Entity::setPosition(const Vector2 newPosition) {
