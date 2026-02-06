@@ -6,7 +6,8 @@ Player::Player(const float playerWidth, const float playerHeight, const Vector2 
            {0, 0},
            100),
     playerSprite(IDLE),
-    boostersDestinationRect({getPosition().x, getPosition().y, 50, 50}) {
+    boostersDestinationRect({getPosition().x, getPosition().y, 50, 50}),
+    health(100) {
     getRenderer()->setSprite(IDLE);
     boosterRenderers.push_back(std::make_unique<SpriteRenderer>(2, "assets/player/boosters_left.png"));
     boosterRenderers.push_back(std::make_unique<SpriteRenderer>(2, "assets/player/boosters.png"));
@@ -51,4 +52,8 @@ void Player::render() {
                    {0, 0},
                    0.0f,
                    WHITE);
+}
+
+bool Player::isAlive() const {
+    return health > 0;
 }

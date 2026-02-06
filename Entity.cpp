@@ -6,8 +6,7 @@ Entity::Entity(const Rectangle destinationRect,
                const int health) :
     destinationRect(destinationRect),
     spriteRenderer(std::move(renderer)),
-    velocity(velocity),
-    health(health) {
+    velocity(velocity) {
     if (health < 1) throw std::invalid_argument("health must be greater than 0");
 }
 
@@ -20,10 +19,6 @@ void Entity::update() {
 
 void Entity::render() {
     DrawTexturePro(spriteRenderer->getTexture(), spriteRenderer->getSource(), destinationRect, {0, 0}, 0.0f, WHITE);
-}
-
-bool Entity::isAlive() const {
-    return health > 0;
 }
 
 void Entity::setVelocity(const Vector2 updatedVelocity) {

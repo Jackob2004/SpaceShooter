@@ -16,6 +16,8 @@ public:
 
     void render() override;
 
+    [[nodiscard]] bool isAlive() const override;
+
 private:
     enum PlayerSprite {
         IDLE = 1,
@@ -26,6 +28,7 @@ private:
     PlayerSprite playerSprite;
     std::vector<std::unique_ptr<SpriteRenderer> > boosterRenderers;
     Rectangle boostersDestinationRect;
+    unsigned int health;
 };
 
 

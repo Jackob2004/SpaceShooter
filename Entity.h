@@ -14,7 +14,7 @@ public:
 
     virtual void render();
 
-    [[nodiscard]] bool isAlive() const;
+    [[nodiscard]] virtual bool isAlive() const = 0;
 
     void setPosition(Vector2 newPosition);
 
@@ -28,7 +28,6 @@ private:
     Rectangle destinationRect;
     std::unique_ptr<SpriteRenderer> spriteRenderer;
     Vector2 velocity;
-    unsigned int health;
 
 protected:
     [[nodiscard]] SpriteRenderer* getRenderer() const;
