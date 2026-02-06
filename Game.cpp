@@ -1,9 +1,12 @@
 #include "Game.h"
 
+#include <iostream>
+
 Game::Game() :
     backgroundRenderer(std::make_unique<SpriteRenderer>(2, "assets/background.png")),
     backgroundDestRect({0, 0, SCREEN_WIDTH, SCREEN_HEIGHT}),
     player(50, 50, {static_cast<float>(SCREEN_WIDTH) / 2 - 25, SCREEN_HEIGHT - 100}) {
+    player.addObserver(this);
 }
 
 void Game::processInput() {
@@ -29,4 +32,12 @@ void Game::render() {
                    0.0f,
                    WHITE);
     player.render();
+}
+
+void Game::onNotify(Entity& data, Event event) {
+    switch (event) {
+        case PLAYER_BEAM_SHOOT:
+            std::cout << "Spawning projectile" << std::endl;
+            break;
+    }
 }

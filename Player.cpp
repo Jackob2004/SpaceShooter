@@ -16,6 +16,10 @@ Player::Player(const float playerWidth, const float playerHeight, const Vector2 
 void Player::processInput() {
     const PlayerSprite oldSprite = playerSprite;
 
+    if (IsKeyPressed(KEY_SPACE)) {
+        notify(*this, PLAYER_BEAM_SHOOT);
+    }
+
     if (IsKeyDown(KEY_A) || IsKeyDown(KEY_KP_4)) {
         setVelocity({-80, 0});
         playerSprite = FLY_LEFT;

@@ -9,7 +9,7 @@ constexpr static int SCREEN_WIDTH = 800;
 constexpr static int SCREEN_HEIGHT = 600;
 constexpr static int FPS = 60;
 
-class Game {
+class Game: public Observer<Entity> {
 public:
     Game();
 
@@ -18,6 +18,8 @@ public:
     void update();
 
     void render();
+
+    void onNotify(Entity& data, Event event) override;
 
 private:
     std::unique_ptr<SpriteRenderer> backgroundRenderer;

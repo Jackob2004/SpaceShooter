@@ -1,0 +1,8 @@
+#ifndef SPACESHOOTER_EVENT_H
+#define SPACESHOOTER_EVENT_H
+
+enum Event {
+    PLAYER_BEAM_SHOOT,
+};
+
+#endif //SPACESHOOTER_EVENT_H

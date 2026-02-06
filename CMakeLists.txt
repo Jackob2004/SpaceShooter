@@ -14,7 +14,11 @@ add_executable(SpaceShooter main.cpp
         Player.cpp
         Player.h
         Game.cpp
-        Game.h)
+        Game.h
+        Observer.h
+        Event.h
+        Subject.cpp
+        Subject.h)
 
 target_link_libraries(SpaceShooter PRIVATE raylib glfw)
 

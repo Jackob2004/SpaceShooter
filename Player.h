@@ -4,8 +4,9 @@
 #include <vector>
 
 #include "Entity.h"
+#include "Subject.h"
 
-class Player : public Entity {
+class Player : public Entity, public Subject<Entity> {
 public:
     Player(float playerWidth, float playerHeight, Vector2 spawPoint);
 
