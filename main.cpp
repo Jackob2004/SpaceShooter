@@ -4,20 +4,25 @@
 
 int main() {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Space Shooter");
-    Game game;
+    BeamProjectile::initTexture();
 
-    SetTargetFPS(FPS);
+    {
+        Game game;
 
-    while (!WindowShouldClose()) {
-        game.processInput();
-        game.update();
+        SetTargetFPS(FPS);
 
-        BeginDrawing();
-        ClearBackground(RAYWHITE);
-        game.render();
-        EndDrawing();
+        while (!WindowShouldClose()) {
+            game.processInput();
+            game.update();
+
+            BeginDrawing();
+            ClearBackground(RAYWHITE);
+            game.render();
+            EndDrawing();
+        }
     }
 
+    BeamProjectile::unloadTexture();
     CloseWindow();
     return 0;
 }
