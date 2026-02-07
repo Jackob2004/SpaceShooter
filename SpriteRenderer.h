@@ -10,6 +10,8 @@ class SpriteRenderer {
 public:
     SpriteRenderer(int totalSprites, const char* texturePath);
 
+    SpriteRenderer(int totalSprites, const Texture2D& sharedTexture);
+
     ~SpriteRenderer();
 
     void advanceSprite();
@@ -21,7 +23,10 @@ public:
     [[nodiscard]] Rectangle getSource() const;
 
 private:
+    SpriteRenderer(int totalSprites, bool sharedTexture, const Texture2D& texture);
+
     const unsigned int totalSprites;
+    bool sharedTexture;
     Texture2D spritesheet{};
     Rectangle frameRect{};
     unsigned int currentFrame;

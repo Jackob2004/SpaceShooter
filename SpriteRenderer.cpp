@@ -1,10 +1,11 @@
 #include "SpriteRenderer.h"
 
-SpriteRenderer::SpriteRenderer(const int totalSprites, const char* texturePath) :
-    totalSprites(totalSprites) {
+SpriteRenderer::SpriteRenderer(const int totalSprites, const bool sharedTexture, const Texture2D& texture) :
+    totalSprites(totalSprites),
+    sharedTexture(sharedTexture),
+    spritesheet(texture) {
     if (totalSprites < 1) throw std::invalid_argument("Total sprites must be at least 1");
 
-    spritesheet = LoadTexture(texturePath);
     frameRect = {
         .x = 0,
         .y = 0,
@@ -15,7 +16,16 @@ SpriteRenderer::SpriteRenderer(const int totalSprites, const char* texturePath) 
     currentFrame = frameCounter = 0;
 }
 
+SpriteRenderer::SpriteRenderer(const int totalSprites, const Texture2D& sharedTexture) :
+    SpriteRenderer(totalSprites, true, sharedTexture) {
+}
+
+SpriteRenderer::SpriteRenderer(const int totalSprites, const char* texturePath) :
+    SpriteRenderer(totalSprites, false, LoadTexture(texturePath)) {
+}
+
 SpriteRenderer::~SpriteRenderer() {
+    if (sharedTexture) return;
     UnloadTexture(spritesheet);
 }
 
