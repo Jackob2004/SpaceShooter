@@ -1,7 +1,7 @@
 #ifndef SPACESHOOTER_ENTITY_H
 #define SPACESHOOTER_ENTITY_H
 
-#include "SpriteRenderer.h"
+#include "components/SpriteRenderer.h"
 
 class Entity {
 public:

@@ -1,6 +1,6 @@
 #include <iostream>
 
-#include "Game.h"
+#include "core/Game.h"
 
 int main() {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Space Shooter");

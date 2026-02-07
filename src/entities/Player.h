@@ -5,7 +5,7 @@
 #include <memory>
 
 #include "Entity.h"
-#include "Subject.h"
+#include "core/events/Subject.h"
 
 class Player : public Entity, public Subject<Entity> {
 public:

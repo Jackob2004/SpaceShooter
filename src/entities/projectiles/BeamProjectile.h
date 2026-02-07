@@ -1,7 +1,7 @@
 #ifndef SPACESHOOTER_BEAMPROJECTILE_H
 #define SPACESHOOTER_BEAMPROJECTILE_H
 
-#include "Entity.h"
+#include "entities/Entity.h"
 
 class BeamProjectile : public Entity {
     friend class BeamPool;

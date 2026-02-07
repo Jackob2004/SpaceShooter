@@ -1,6 +1,6 @@
 #include "Subject.h"
 
-#include "Entity.h"
+#include "entities/Entity.h"
 
 template <typename T>
 void Subject<T>::addObserver(Observer<T>* observer) {

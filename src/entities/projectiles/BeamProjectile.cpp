@@ -1,6 +1,6 @@
 #include "BeamProjectile.h"
 
-#include "Game.h"
+#include "core/Game.h"
 
 Texture2D BeamProjectile::texture = {0};
 
