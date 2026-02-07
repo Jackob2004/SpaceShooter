@@ -1,12 +1,11 @@
 #include "BeamProjectile.h"
 
 #include "core/Game.h"
-
-Texture2D BeamProjectile::texture = {0};
+#include "core/TextureManager.h"
 
 BeamProjectile::BeamProjectile() :
     Entity({0, 0, 50, 50},
-           new SpriteRenderer(2, texture),
+           new SpriteRenderer(2, TextureManager::getTexture("assets/player/projectiles/beam.png")),
            {0, -200}),
     alive(false) {
 }
@@ -14,19 +13,6 @@ BeamProjectile::BeamProjectile() :
 void BeamProjectile::init(const Vector2 spawnPoint) {
     setPosition(spawnPoint);
     alive = true;
-}
-
-void BeamProjectile::initTexture() {
-    if (texture.id == 0) {
-        texture = LoadTexture("assets/player/projectiles/beam.png");
-    }
-}
-
-void BeamProjectile::unloadTexture() {
-    if (texture.id != 0) {
-        UnloadTexture(texture);
-        texture = {0};
-    }
 }
 
 void BeamProjectile::update() {

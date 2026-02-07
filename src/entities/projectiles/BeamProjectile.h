@@ -13,17 +13,12 @@ public:
 
     void render() override;
 
-    static void initTexture();
-
-    static void unloadTexture();
-
     [[nodiscard]] bool isAlive() const override;
 
 private:
     BeamProjectile();
 
     bool alive;
-    static Texture2D texture;
 };
 
 
