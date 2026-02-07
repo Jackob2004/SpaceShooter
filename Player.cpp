@@ -3,8 +3,7 @@
 Player::Player(const float playerWidth, const float playerHeight, const Vector2 spawPoint) :
     Entity({spawPoint.x, spawPoint.y, playerWidth, playerHeight},
            new SpriteRenderer(3, "assets/player/player_ship.png"),
-           {0, 0},
-           100),
+           {0, 0}),
     playerSprite(IDLE),
     boostersDestinationRect({getPosition().x, getPosition().y, 50, 50}),
     health(100) {

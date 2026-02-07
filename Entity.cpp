@@ -2,12 +2,10 @@
 
 Entity::Entity(const Rectangle destinationRect,
                SpriteRenderer* renderer,
-               const Vector2 velocity,
-               const int health) :
+               const Vector2 velocity) :
     destinationRect(destinationRect),
     spriteRenderer(renderer),
     velocity(velocity) {
-    if (health < 1) throw std::invalid_argument("health must be greater than 0");
 }
 
 Entity::~Entity() {

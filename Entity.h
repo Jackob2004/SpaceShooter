@@ -5,7 +5,7 @@
 
 class Entity {
 public:
-    Entity(Rectangle destinationRect, SpriteRenderer *renderer, Vector2 velocity, int health);
+    Entity(Rectangle destinationRect, SpriteRenderer *renderer, Vector2 velocity);
 
     virtual ~Entity();
 
