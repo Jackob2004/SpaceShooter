@@ -2,6 +2,7 @@
 #define SPACESHOOTER_GAME_H
 #include <memory>
 
+#include "BeamPool.h"
 #include "Player.h"
 #include "SpriteRenderer.h"
 
@@ -19,12 +20,16 @@ public:
 
     void render();
 
+    static bool isOutOfBounds(Vector2 position);
+
     void onNotify(Entity& data, Event event) override;
 
 private:
     std::unique_ptr<SpriteRenderer> backgroundRenderer;
     Rectangle backgroundDestRect;
     Player player;
+    BeamPool beamPool;
+    void spawnPlayerProjectile(const Entity& shooter);
 };
 
 
