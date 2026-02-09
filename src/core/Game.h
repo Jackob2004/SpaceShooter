@@ -2,9 +2,11 @@
 #define SPACESHOOTER_GAME_H
 #include <memory>
 
-#include "entities/projectiles/BeamPool.h"
 #include "entities/Player.h"
 #include "components/SpriteRenderer.h"
+#include "entities/projectiles/BeamProjectile.h"
+#include "entities/EntityPool.h"
+#include "entities/enemies/CandyEnemy.h"
 
 constexpr static int SCREEN_WIDTH = 800;
 constexpr static int SCREEN_HEIGHT = 600;
@@ -28,7 +30,8 @@ private:
     std::unique_ptr<SpriteRenderer> backgroundRenderer;
     Rectangle backgroundDestRect;
     Player player;
-    BeamPool beamPool;
+    CandyEnemy enemy;
+    EntityPool<BeamProjectile> beamPool;
     void spawnPlayerProjectile(const Entity& shooter);
 };
 

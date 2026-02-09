@@ -4,10 +4,10 @@
 #include "entities/Entity.h"
 
 class BeamProjectile : public Entity {
-    friend class BeamPool;
-
 public:
-    void init(Vector2 spawnPoint);
+    BeamProjectile();
+
+    void init(Vector2 spawnPoint) override;
 
     void update() override;
 
@@ -16,8 +16,6 @@ public:
     [[nodiscard]] bool isAlive() const override;
 
 private:
-    BeamProjectile();
-
     bool alive;
 };
 
