@@ -25,7 +25,7 @@ void BeamProjectile::update() {
         .y = getPosition().y + getEntityHeight()
     };
 
-    if (Game::isOutOfBounds(position)) {
+    if (Game::isOutOfVerticalBounds(position)) {
         alive = false;
     }
 }
