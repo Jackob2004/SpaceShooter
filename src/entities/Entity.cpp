@@ -34,6 +34,10 @@ void Entity::setVelocity(const Vector2 updatedVelocity) {
     velocity.y = updatedVelocity.y;
 }
 
+Vector2 Entity::getVelocity() const {
+    return velocity;
+}
+
 SpriteRenderer* Entity::getRenderer() const {
     return spriteRenderer;
 }

@@ -5,7 +5,7 @@
 
 class Entity {
 public:
-    Entity(Rectangle destinationRect, SpriteRenderer *renderer, Vector2 velocity);
+    Entity(Rectangle destinationRect, SpriteRenderer* renderer, Vector2 velocity);
 
     virtual ~Entity();
 
@@ -13,15 +13,21 @@ public:
 
     virtual void render();
 
+    virtual void init(Vector2 spawnPoint) = 0;
+
     [[nodiscard]] virtual bool isAlive() const = 0;
 
-    [[nodiscard]] Entity *getNext() const;
+    [[nodiscard]] Entity* getNext() const;
 
-    void setNext(Entity *next);
+    void setNext(Entity* next);
 
     void setPosition(Vector2 newPosition);
 
     [[nodiscard]] Vector2 getPosition() const;
+
+    void setVelocity(Vector2 updatedVelocity);
+
+    [[nodiscard]] Vector2 getVelocity() const;
 
     [[nodiscard]] float getEntityWidth() const;
 
@@ -31,16 +37,15 @@ private:
     union {
         struct {
             Rectangle destinationRect;
-            SpriteRenderer *spriteRenderer;
+            SpriteRenderer* spriteRenderer;
             Vector2 velocity;
         };
+
         Entity* next;
     };
 
 protected:
     [[nodiscard]] SpriteRenderer* getRenderer() const;
-
-    void setVelocity(Vector2 updatedVelocity);
 };
 
 
