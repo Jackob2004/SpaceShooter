@@ -1,6 +1,8 @@
 #ifndef SPACESHOOTER_ENTITYPOOL_H
 #define SPACESHOOTER_ENTITYPOOL_H
 
+#include <functional>
+
 #include "Entity.h"
 
 template <typename TObject>
@@ -47,6 +49,12 @@ public:
     void render() {
         for (int i = 0; i < size; i++) {
             entities[i].render();
+        }
+    }
+
+    void forEachEntity(std::function<void(TObject&)> func) {
+        for (int i = 0; i < size; i++) {
+            func(entities[i]);
         }
     }
 
