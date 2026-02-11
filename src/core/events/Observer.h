@@ -8,7 +8,7 @@ class Observer {
 public:
     virtual ~Observer() = default;
 
-    virtual void onNotify(T& data, Event event) = 0;
+    virtual void onNotify(const T& data, Event event) = 0;
 };
 
 

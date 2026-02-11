@@ -23,7 +23,7 @@ private:
     std::vector<Observer<T>*> observers;
 
 protected:
-    void notify(T& data, Event event) {
+    void notify(const T& data, Event event) {
         for (Observer<T>* observer : observers) {
             observer->onNotify(data, event);
         }

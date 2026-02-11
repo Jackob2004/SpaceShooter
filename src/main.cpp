@@ -1,10 +1,10 @@
 #include <iostream>
 
 #include "core/Game.h"
+#include "core/TextureManager.h"
 
 int main() {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Space Shooter");
-    BeamProjectile::initTexture();
 
     {
         Game game;
@@ -22,7 +22,7 @@ int main() {
         }
     }
 
-    BeamProjectile::unloadTexture();
+    TextureManager::unloadTextures();
     CloseWindow();
     return 0;
 }

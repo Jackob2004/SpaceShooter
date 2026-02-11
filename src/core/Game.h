@@ -6,13 +6,16 @@
 #include "components/SpriteRenderer.h"
 #include "entities/projectiles/BeamProjectile.h"
 #include "entities/EntityPool.h"
+#include "entities/effects/Explosion.h"
 #include "entities/enemies/CandyEnemy.h"
+#include "entities/projectiles/EnemyMissile.h"
+#include "entities/projectiles/EnemyProjectile.h"
 
 constexpr static int SCREEN_WIDTH = 800;
 constexpr static int SCREEN_HEIGHT = 600;
 constexpr static int FPS = 60;
 
-class Game: public Observer<Entity> {
+class Game: public Observer<Vector2> {
 public:
     Game();
 
@@ -22,17 +25,22 @@ public:
 
     void render();
 
-    static bool isOutOfBounds(Vector2 position);
+    static bool isOutOfVerticalBounds(Vector2 position);
 
-    void onNotify(Entity& data, Event event) override;
+    static bool isOutOfHorizontalBounds(Vector2 position);
+
+    void onNotify(const Vector2& data, Event event) override;
+
 
 private:
     std::unique_ptr<SpriteRenderer> backgroundRenderer;
     Rectangle backgroundDestRect;
     Player player;
-    CandyEnemy enemy;
     EntityPool<BeamProjectile> beamPool;
-    void spawnPlayerProjectile(const Entity& shooter);
+    EntityPool<CandyEnemy> candyEnemyPool;
+    EntityPool<EnemyProjectile> enemyProjectilePool;
+    EntityPool<EnemyMissile> enemyMissilePool;
+    EntityPool<Explosion> enemyExplosionPool;
 };
 
 

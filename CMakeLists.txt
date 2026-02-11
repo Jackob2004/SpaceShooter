@@ -17,12 +17,31 @@ add_executable(SpaceShooter src/main.cpp
         src/core/Game.h
         src/core/events/Observer.h
         src/core/events/Event.h
-        src/core/events/Subject.cpp
         src/core/events/Subject.h
         src/entities/projectiles/BeamProjectile.cpp
         src/entities/projectiles/BeamProjectile.h
-        src/entities/projectiles/BeamPool.cpp
-        src/entities/projectiles/BeamPool.h)
+        src/entities/enemies/CandyEnemy.cpp
+        src/entities/enemies/CandyEnemy.h
+        src/core/TextureManager.cpp
+        src/core/TextureManager.h
+        src/entities/enemies/states/CandyEnemyState.h
+        src/entities/enemies/states/CandyAdvancingState.cpp
+        src/entities/enemies/states/CandyAdvancingState.h
+        src/entities/enemies/states/CandyTargetingState.cpp
+        src/entities/enemies/states/CandyTargetingState.h
+        src/entities/enemies/states/CandyShootingState.cpp
+        src/entities/enemies/states/CandyShootingState.h
+        src/entities/enemies/states/CandyEnemyState.cpp
+        src/entities/EntityPool.h
+        src/entities/projectiles/EnemyProjectile.cpp
+        src/entities/projectiles/EnemyProjectile.h
+        src/entities/projectiles/EnemyMissile.cpp
+        src/entities/projectiles/EnemyMissile.h
+        src/entities/enemies/states/CandyPausingState.cpp
+        src/entities/enemies/states/CandyPausingState.h
+        src/entities/effects/Explosion.cpp
+        src/entities/effects/Explosion.h
+)
 
 target_include_directories(SpaceShooter PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
 target_link_libraries(SpaceShooter PRIVATE raylib glfw)
