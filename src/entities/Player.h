@@ -7,7 +7,7 @@
 #include "Entity.h"
 #include "core/events/Subject.h"
 
-class Player : public Entity, public Subject<Entity> {
+class Player : public Entity, public Subject<Vector2> {
 public:
     Player(float playerWidth, float playerHeight, Vector2 spawPoint);
 
@@ -16,6 +16,8 @@ public:
     void update() override;
 
     void render() override;
+
+    void init(Vector2 spawnPoint) override;
 
     [[nodiscard]] bool isAlive() const override;
 
@@ -30,6 +32,8 @@ private:
     std::vector<std::unique_ptr<SpriteRenderer> > boosterRenderers;
     Rectangle boostersDestinationRect;
     unsigned int health;
+
+    [[nodiscard]] Vector2 computeProjectilePosition() const;
 };
 
 

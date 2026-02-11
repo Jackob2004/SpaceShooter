@@ -17,7 +17,7 @@ void Player::processInput() {
     const PlayerSprite oldSprite = playerSprite;
 
     if (IsKeyPressed(KEY_SPACE)) {
-        notify(*this, PLAYER_BEAM_SHOOT);
+        notify(computeProjectilePosition(), PLAYER_BEAM_SHOOT);
     }
 
     if (IsKeyDown(KEY_A) || IsKeyDown(KEY_KP_4)) {
@@ -53,6 +53,18 @@ void Player::render() {
                    WHITE);
 }
 
+void Player::init(Vector2 spawnPoint) {
+}
+
 bool Player::isAlive() const {
     return health > 0;
+}
+
+Vector2 Player::computeProjectilePosition() const {
+    const Vector2 position = {
+        .x = getPosition().x,
+        .y = getPosition().y - getEntityHeight()
+    };
+
+    return position;
 }
