@@ -17,8 +17,7 @@ public:
 
     void render() override;
 
-    void init(Vector2 spawnPoint) override {
-    }
+    void init(Vector2 spawnPoint) override;
 
     void setTarget(Player* player);
 

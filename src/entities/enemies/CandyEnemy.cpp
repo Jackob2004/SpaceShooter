@@ -8,7 +8,7 @@ CandyEnemy::CandyEnemy() :
     Entity({0, 0, 50, 50},
            new SpriteRenderer(4, TextureManager::getTexture("assets/enemies/candy_enemy.png")),
            {0, 0}),
-    health(100) {
+    health(0) {
     state = &CandyEnemyState::advancing;
     state->enter(*this);
 }
@@ -28,6 +28,11 @@ void CandyEnemy::update() {
 void CandyEnemy::render() {
     if (!isAlive()) return;
     Entity::render();
+}
+
+void CandyEnemy::init(const Vector2 spawnPoint) {
+    setPosition(spawnPoint);
+    health = 100;
 }
 
 void CandyEnemy::setTarget(Player* player) {
