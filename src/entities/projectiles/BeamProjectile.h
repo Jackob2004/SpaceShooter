@@ -1,9 +1,10 @@
 #ifndef SPACESHOOTER_BEAMPROJECTILE_H
 #define SPACESHOOTER_BEAMPROJECTILE_H
 
+#include "entities/Damageable.h"
 #include "entities/Entity.h"
 
-class BeamProjectile : public Entity {
+class BeamProjectile : public Entity, public Damageable {
 public:
     BeamProjectile();
 
@@ -14,6 +15,10 @@ public:
     void render() override;
 
     [[nodiscard]] bool isAlive() const override;
+
+    void dealDamage(int damage) override;
+
+    int getDamage() override;
 
 private:
     bool alive;

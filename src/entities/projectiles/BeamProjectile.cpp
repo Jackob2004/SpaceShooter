@@ -38,3 +38,11 @@ void BeamProjectile::render() {
 bool BeamProjectile::isAlive() const {
     return alive;
 }
+
+void BeamProjectile::dealDamage(int damage) {
+    alive = false;
+}
+
+int BeamProjectile::getDamage() {
+    return 40;
+}
