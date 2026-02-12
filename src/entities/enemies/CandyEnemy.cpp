@@ -1,5 +1,7 @@
 #include "CandyEnemy.h"
 
+#include <iostream>
+
 #include "core/TextureManager.h"
 #include "entities/enemies/states/CandyEnemyState.h"
 #include "entities/enemies/states/CandyAdvancingState.h"

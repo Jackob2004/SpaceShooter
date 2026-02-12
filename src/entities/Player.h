@@ -36,7 +36,7 @@ private:
     PlayerSprite playerSprite;
     std::vector<std::unique_ptr<SpriteRenderer> > boosterRenderers;
     Rectangle boostersDestinationRect;
-    unsigned int health;
+    int health;
 
     [[nodiscard]] Vector2 computeProjectilePosition() const;
 };

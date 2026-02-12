@@ -38,7 +38,7 @@ public:
 
 private:
     Player* target = nullptr;
-    unsigned int health;
+    int health;
     CandyEnemyState* state;
     int stateTimeLeft;
 };

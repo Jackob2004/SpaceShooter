@@ -32,7 +32,7 @@ bool Explosion::isAlive() const {
 }
 
 void Explosion::dealDamage(int damage) {
-    damage = 0;
+    this->damage = 0;
 }
 
 int Explosion::getDamage() {
