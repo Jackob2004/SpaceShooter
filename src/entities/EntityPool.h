@@ -58,6 +58,14 @@ public:
         }
     }
 
+    void forEachActiveEntity(std::function<void(TObject&)> func) {
+        for (int i = 0; i < size; i++) {
+            if (entities[i].isAlive()) {
+                func(entities[i]);
+            }
+        }
+    }
+
 private:
     const int size;
     TObject* entities;
