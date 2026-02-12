@@ -4,10 +4,11 @@
 #include <vector>
 #include <memory>
 
+#include "Damageable.h"
 #include "Entity.h"
 #include "core/events/Subject.h"
 
-class Player : public Entity, public Subject<Vector2> {
+class Player : public Entity, public Subject<Vector2>, public Damageable {
 public:
     Player(float playerWidth, float playerHeight, Vector2 spawPoint);
 
@@ -20,6 +21,10 @@ public:
     void init(Vector2 spawnPoint) override;
 
     [[nodiscard]] bool isAlive() const override;
+
+    void dealDamage(int damage) override;
+
+    int getDamage() override;
 
 private:
     enum PlayerSprite {

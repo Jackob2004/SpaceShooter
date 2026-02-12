@@ -41,6 +41,7 @@ add_executable(SpaceShooter src/main.cpp
         src/entities/enemies/states/CandyPausingState.h
         src/entities/effects/Explosion.cpp
         src/entities/effects/Explosion.h
+        src/entities/Damageable.h
 )
 
 target_include_directories(SpaceShooter PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)

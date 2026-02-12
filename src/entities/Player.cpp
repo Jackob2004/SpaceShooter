@@ -53,8 +53,7 @@ void Player::render() {
                    WHITE);
 }
 
-void Player::init(Vector2 spawnPoint) {
-}
+void Player::init(Vector2 spawnPoint) {}
 
 bool Player::isAlive() const {
     return health > 0;
@@ -67,4 +66,12 @@ Vector2 Player::computeProjectilePosition() const {
     };
 
     return position;
+}
+
+void Player::dealDamage(const int damage) {
+    health -= damage;
+}
+
+int Player::getDamage() {
+    return 100;
 }

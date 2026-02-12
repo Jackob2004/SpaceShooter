@@ -7,7 +7,7 @@ Explosion::Explosion() :
     Entity({0, 0, 100, 100},
            new SpriteRenderer(FRAMES, TextureManager::getTexture("assets/effects/explosion.png")),
            {0, 0}),
-    timeLeft(0) {
+    timeLeft(0), damage(25) {
 }
 
 void Explosion::init(const Vector2 spawnPoint) {
@@ -29,4 +29,12 @@ void Explosion::render() {
 
 bool Explosion::isAlive() const {
     return timeLeft > 0;
+}
+
+void Explosion::dealDamage(int damage) {
+    damage = 0;
+}
+
+int Explosion::getDamage() {
+    return damage;
 }

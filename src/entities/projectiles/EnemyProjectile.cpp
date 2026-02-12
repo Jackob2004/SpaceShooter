@@ -39,3 +39,11 @@ void EnemyProjectile::render() {
 bool EnemyProjectile::isAlive() const {
     return alive;
 }
+
+void EnemyProjectile::dealDamage(int damage) {
+    alive = false;
+}
+
+int EnemyProjectile::getDamage() {
+    return 5;
+}

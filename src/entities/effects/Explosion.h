@@ -1,9 +1,10 @@
 #ifndef SPACESHOOTER_EXPLOSION_H
 #define SPACESHOOTER_EXPLOSION_H
 #include "../Entity.h"
+#include "entities/Damageable.h"
 
 
-class Explosion : public Entity {
+class Explosion : public Entity, public Damageable {
 public:
     Explosion();
 
@@ -15,9 +16,14 @@ public:
 
     [[nodiscard]] bool isAlive() const override;
 
+    void dealDamage(int damage) override;
+
+    int getDamage() override;
+
 private:
     static constexpr int FRAMES = 6;
     int timeLeft;
+    int damage;
 };
 
 
