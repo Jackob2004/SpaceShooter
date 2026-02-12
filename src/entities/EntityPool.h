@@ -40,8 +40,7 @@ public:
 
             entity.update();
             if (!entity.isAlive()) {
-                entity.setNext(firstAvailable);
-                firstAvailable = &entity;
+                reclaim(entity);
             }
         }
     }
@@ -62,6 +61,10 @@ public:
         for (int i = 0; i < size; i++) {
             if (entities[i].isAlive()) {
                 func(entities[i]);
+
+                if (!entities[i].isAlive()) {
+                    reclaim(entities[i]);
+                }
             }
         }
     }
@@ -70,6 +73,11 @@ private:
     const int size;
     TObject* entities;
     Entity* firstAvailable;
+
+    void reclaim(TObject& entity) {
+        entity.setNext(firstAvailable);
+        firstAvailable = &entity;
+    }
 };
 
 #endif //SPACESHOOTER_ENTITYPOOL_H
