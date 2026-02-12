@@ -9,16 +9,18 @@ Game::Game() :
     beamPool(20),
     candyEnemyPool(20),
     enemyProjectilePool(100),
-    enemyMissilePool(25),
-    enemyExplosionPool(25) {
+    enemyMissilePool(50),
+    enemyExplosionPool(50) {
     player.addObserver(this);
-    enemyMissilePool.forEachEntity([this](EnemyMissile& missile) {
+    enemyMissilePool.forEachEntity([this] (EnemyMissile& missile) {
         missile.addObserver(this);
     });
     candyEnemyPool.forEachEntity([this] (CandyEnemy& enemy) {
         enemy.addObserver(this);
         enemy.setTarget(&player);
     });
+
+    candyEnemyPool.create({50, 1});
 }
 
 void Game::processInput() {
@@ -39,6 +41,8 @@ void Game::update() {
     } else if (player.getPosition().x < 0) {
         player.setPosition({0, SCREEN_HEIGHT - 100});
     }
+
+    handleCollisions();
 }
 
 void Game::render() {
@@ -77,7 +81,41 @@ void Game::onNotify(const Vector2& data, Event event) {
             break;
         case ENEMY_MISSILE_EXPLODED:
             enemyExplosionPool.create(data);
+            break;
         default:
             break;
     }
+}
+
+void Game::handleCollisions() {
+    beamPool.forEachActiveEntity([this](BeamProjectile& beam) {
+        candyEnemyPool.forEachActiveEntity([&beam](CandyEnemy& enemy) {
+            if (!beam.isAlive()) return;
+            if (CheckCollisionRecs(beam.getHitBox(), enemy.getHitBox())) {
+                beam.dealDamage(enemy.getDamage());
+                enemy.dealDamage(beam.getDamage());
+            }
+        });
+    });
+
+    candyEnemyPool.forEachActiveEntity([this](CandyEnemy& enemy) {
+        if (CheckCollisionRecs(player.getHitBox(), enemy.getHitBox())) {
+            enemy.dealDamage(player.getDamage());
+            player.dealDamage(enemy.getDamage());
+        }
+    });
+
+    enemyProjectilePool.forEachActiveEntity([this] (EnemyProjectile& projectile) {
+        if (CheckCollisionRecs(player.getHitBox(), projectile.getHitBox())) {
+            projectile.dealDamage(player.getDamage());
+            player.dealDamage(projectile.getDamage());
+        }
+    });
+
+    enemyExplosionPool.forEachActiveEntity([this](Explosion& explosion) {
+        if (CheckCollisionRecs(player.getHitBox(), explosion.getHitBox())) {
+            explosion.dealDamage(player.getDamage());
+            player.dealDamage(explosion.getDamage());
+        }
+    });
 }

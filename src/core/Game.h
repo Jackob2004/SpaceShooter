@@ -41,6 +41,8 @@ private:
     EntityPool<EnemyProjectile> enemyProjectilePool;
     EntityPool<EnemyMissile> enemyMissilePool;
     EntityPool<Explosion> enemyExplosionPool;
+
+    void handleCollisions();
 };
 
 
