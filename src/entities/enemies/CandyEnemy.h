@@ -2,11 +2,12 @@
 #define SPACESHOOTER_CANDYENEMY_H
 
 #include "core/events/Subject.h"
+#include "entities/Damageable.h"
 #include "entities/Entity.h"
 #include "entities/Player.h"
 class CandyEnemyState;
 
-class CandyEnemy : public Entity, public Subject<Vector2> {
+class CandyEnemy : public Entity, public Subject<Vector2>, public Damageable {
     friend class CandyShootingState;
     friend class CandyTargetingState;
 
@@ -19,9 +20,13 @@ public:
 
     void init(Vector2 spawnPoint) override;
 
-    void setTarget(Player* player);
-
     [[nodiscard]] bool isAlive() const override;
+
+    void dealDamage(int damage) override;
+
+    int getDamage() override;
+
+    void setTarget(Player* player);
 
     void setStateTimeLeft(int time);
 
@@ -32,7 +37,7 @@ public:
     void setHealth(int updatedHealth);
 
 private:
-    Player *target = nullptr;
+    Player* target = nullptr;
     unsigned int health;
     CandyEnemyState* state;
     int stateTimeLeft;
