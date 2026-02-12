@@ -58,3 +58,7 @@ float Entity::getEntityWidth() const {
 float Entity::getEntityHeight() const {
     return destinationRect.height;
 }
+
+Rectangle Entity::getHitBox() const {
+    return destinationRect;
+}

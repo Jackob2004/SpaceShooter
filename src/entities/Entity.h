@@ -33,6 +33,8 @@ public:
 
     [[nodiscard]] float getEntityHeight() const;
 
+    [[nodiscard]] Rectangle getHitBox() const;
+
 private:
     union {
         struct {
