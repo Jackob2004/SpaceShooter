@@ -44,6 +44,16 @@ add_executable(SpaceShooter src/main.cpp
         src/entities/Damageable.h
         src/utils/MathUtils.h
         src/utils/MathUtils.cpp
+        src/entities/enemies/KamikazeEnemy.cpp
+        src/entities/enemies/KamikazeEnemy.h
+        src/entities/enemies/states/KamikazeEnemyState.cpp
+        src/entities/enemies/states/KamikazeEnemyState.h
+        src/entities/enemies/states/KamikazeAdvancingState.cpp
+        src/entities/enemies/states/KamikazeAdvancingState.h
+        src/entities/enemies/states/KamikazeTargetingState.cpp
+        src/entities/enemies/states/KamikazeTargetingState.h
+        src/entities/enemies/states/KamikazeDyingState.cpp
+        src/entities/enemies/states/KamikazeDyingState.h
 )
 
 target_include_directories(SpaceShooter PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)

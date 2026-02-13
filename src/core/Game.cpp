@@ -10,17 +10,22 @@ Game::Game() :
     candyEnemyPool(20),
     enemyProjectilePool(100),
     enemyMissilePool(50),
-    enemyExplosionPool(50) {
+    enemyExplosionPool(50),
+    kamikazeEnemyPool(20) {
     player.addObserver(this);
-    enemyMissilePool.forEachEntity([this] (EnemyMissile& missile) {
+    enemyMissilePool.forEachEntity([this](EnemyMissile& missile) {
         missile.addObserver(this);
     });
-    candyEnemyPool.forEachEntity([this] (CandyEnemy& enemy) {
+    candyEnemyPool.forEachEntity([this](CandyEnemy& enemy) {
         enemy.addObserver(this);
         enemy.setTarget(&player);
     });
 
-    candyEnemyPool.create({50, 1});
+    kamikazeEnemyPool.forEachEntity([this] (KamikazeEnemy& enemy) {
+        enemy.setTarget(&player);
+    });
+
+    kamikazeEnemyPool.create({100, 1});
 }
 
 void Game::processInput() {
@@ -35,6 +40,7 @@ void Game::update() {
     enemyProjectilePool.update();
     enemyMissilePool.update();
     enemyExplosionPool.update();
+    kamikazeEnemyPool.update();
 
     if (player.getPosition().x + player.getEntityHeight() > SCREEN_WIDTH) {
         player.setPosition({SCREEN_WIDTH - player.getEntityWidth(), SCREEN_HEIGHT - 100});
@@ -58,6 +64,7 @@ void Game::render() {
     enemyProjectilePool.render();
     enemyMissilePool.render();
     enemyExplosionPool.render();
+    kamikazeEnemyPool.render();
 }
 
 bool Game::isOutOfVerticalBounds(const Vector2 position) {
@@ -105,7 +112,7 @@ void Game::handleCollisions() {
         }
     });
 
-    enemyProjectilePool.forEachActiveEntity([this] (EnemyProjectile& projectile) {
+    enemyProjectilePool.forEachActiveEntity([this](EnemyProjectile& projectile) {
         if (CheckCollisionRecs(player.getHitBox(), projectile.getHitBox())) {
             projectile.dealDamage(player.getDamage());
             player.dealDamage(projectile.getDamage());
@@ -116,6 +123,13 @@ void Game::handleCollisions() {
         if (CheckCollisionRecs(player.getHitBox(), explosion.getHitBox())) {
             explosion.dealDamage(player.getDamage());
             player.dealDamage(explosion.getDamage());
+        }
+    });
+
+    kamikazeEnemyPool.forEachActiveEntity([this] (KamikazeEnemy& enemy) {
+        if (CheckCollisionRecs(player.getHitBox(), enemy.getHitBox())) {
+            enemy.dealDamage(player.getDamage());
+            player.dealDamage(enemy.getDamage());
         }
     });
 }
