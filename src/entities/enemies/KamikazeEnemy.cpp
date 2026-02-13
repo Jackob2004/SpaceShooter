@@ -1,9 +1,11 @@
 #include "KamikazeEnemy.h"
+
+#include "core/TextureManager.h"
 #include "states/KamikazeAdvancingState.h"
 
 KamikazeEnemy::KamikazeEnemy():
     Entity({0, 0, 50, 50},
-           new SpriteRenderer(6, "assets/enemies/kamikaze_enemy.png"),
+           new SpriteRenderer(6, TextureManager::getTexture("assets/enemies/kamikaze_enemy.png")),
            {0, 0}),
     health(0),
     state(&KamikazeEnemyState::advancing) {
