@@ -27,7 +27,7 @@ CandyEnemyState* CandyTargetingState::update(CandyEnemy& candyEnemy) {
     }
 
     if (candyEnemy.target != nullptr &&
-        MathUtils::isInRange(candyEnemy.getPosition(),
+        MathUtils::isInHorizontalRange(candyEnemy.getPosition(),
                              candyEnemy.target->getPosition(),
                              0.10)) {
         candyEnemy.notify(computeMissilePosition(candyEnemy), ENEMY_MISSILE_LAUNCHED);
