@@ -42,6 +42,8 @@ add_executable(SpaceShooter src/main.cpp
         src/entities/effects/Explosion.cpp
         src/entities/effects/Explosion.h
         src/entities/Damageable.h
+        src/utils/MathUtils.h
+        src/utils/MathUtils.cpp
 )
 
 target_include_directories(SpaceShooter PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)

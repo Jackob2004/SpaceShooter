@@ -3,10 +3,7 @@
 #include "entities/enemies/CandyEnemy.h"
 #include "CandyAdvancingState.h"
 #include "core/Game.h"
-
-bool isInRange(const Vector2 targetPosition, const CandyEnemy& candyEnemy) {
-    return std::abs(targetPosition.x - candyEnemy.getPosition().x)  <= (SCREEN_WIDTH * 0.10);
-}
+#include "utils/MathUtils.h"
 
 Vector2 computeMissilePosition(const CandyEnemy& candyEnemy) {
     const Vector2 position = {
@@ -29,7 +26,10 @@ CandyEnemyState* CandyTargetingState::update(CandyEnemy& candyEnemy) {
         return &CandyEnemyState::advancing;
     }
 
-    if (candyEnemy.target != nullptr && isInRange(candyEnemy.target->getPosition(), candyEnemy)) {
+    if (candyEnemy.target != nullptr &&
+        MathUtils::isInRange(candyEnemy.getPosition(),
+                             candyEnemy.target->getPosition(),
+                             0.10)) {
         candyEnemy.notify(computeMissilePosition(candyEnemy), ENEMY_MISSILE_LAUNCHED);
         return &CandyEnemyState::advancing;
     }

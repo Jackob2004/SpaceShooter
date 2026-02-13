@@ -2,17 +2,11 @@
 
 #include "entities/enemies/CandyEnemy.h"
 #include "CandyPausingState.h"
-#include "random"
+#include "utils/MathUtils.h"
 
 Vector2 computeProjectilePosition(const CandyEnemy& enemy) {
-    static std::random_device rd; // obtain seed
-    static std::mt19937 gen(rd());
-
-    std::uniform_int_distribution distribX(-100, 100);
-    std::uniform_int_distribution distribY(-50, -20);
-
-    const int randomOffsetX = distribX(gen);
-    const int randomOffsetY = distribY(gen);
+    const int randomOffsetX = MathUtils::getRandomInRange(-100, 100);
+    const int randomOffsetY = MathUtils::getRandomInRange(-50, 20);
 
     const Vector2 position = {
         .x = enemy.getPosition().x + static_cast<float>(randomOffsetX),
