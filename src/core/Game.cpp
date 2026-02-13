@@ -11,7 +11,9 @@ Game::Game() :
     enemyProjectilePool(100),
     enemyMissilePool(50),
     enemyExplosionPool(50),
-    kamikazeEnemyPool(20) {
+    kamikazeEnemyPool(20),
+    shellEnemyPool(20),
+    enemySparklePool(100) {
     player.addObserver(this);
     enemyMissilePool.forEachEntity([this](EnemyMissile& missile) {
         missile.addObserver(this);
@@ -21,11 +23,16 @@ Game::Game() :
         enemy.setTarget(&player);
     });
 
-    kamikazeEnemyPool.forEachEntity([this] (KamikazeEnemy& enemy) {
+    kamikazeEnemyPool.forEachEntity([this](KamikazeEnemy& enemy) {
         enemy.setTarget(&player);
     });
 
-    kamikazeEnemyPool.create({100, 1});
+    shellEnemyPool.forEachEntity([this] (ShellEnemy& enemy) {
+        enemy.addObserver(this);
+        enemy.setTarget(&player);
+    });
+
+    shellEnemyPool.create({100, 1});
 }
 
 void Game::processInput() {
@@ -41,6 +48,8 @@ void Game::update() {
     enemyMissilePool.update();
     enemyExplosionPool.update();
     kamikazeEnemyPool.update();
+    shellEnemyPool.update();
+    enemySparklePool.update();
 
     if (player.getPosition().x + player.getEntityHeight() > SCREEN_WIDTH) {
         player.setPosition({SCREEN_WIDTH - player.getEntityWidth(), SCREEN_HEIGHT - 100});
@@ -65,6 +74,8 @@ void Game::render() {
     enemyMissilePool.render();
     enemyExplosionPool.render();
     kamikazeEnemyPool.render();
+    shellEnemyPool.render();
+    enemySparklePool.render();
 }
 
 bool Game::isOutOfVerticalBounds(const Vector2 position) {
@@ -88,6 +99,9 @@ void Game::onNotify(const Vector2& data, Event event) {
             break;
         case ENEMY_MISSILE_EXPLODED:
             enemyExplosionPool.create(data);
+            break;
+        case ENEMY_SPARKLE_SPAWNED:
+            enemySparklePool.create(data);
             break;
         default:
             break;
@@ -126,10 +140,16 @@ void Game::handleCollisions() {
         }
     });
 
-    kamikazeEnemyPool.forEachActiveEntity([this] (KamikazeEnemy& enemy) {
+    kamikazeEnemyPool.forEachActiveEntity([this](KamikazeEnemy& enemy) {
         if (CheckCollisionRecs(player.getHitBox(), enemy.getHitBox())) {
             enemy.dealDamage(player.getDamage());
             player.dealDamage(enemy.getDamage());
+        }
+    });
+
+    enemySparklePool.forEachActiveEntity([this] (Sparkle& sparkle) {
+        if (CheckCollisionRecs(player.getHitBox(), sparkle.getHitBox())) {
+            player.dealDamage(sparkle.getDamage());
         }
     });
 }

@@ -54,6 +54,15 @@ add_executable(SpaceShooter src/main.cpp
         src/entities/enemies/states/KamikazeTargetingState.h
         src/entities/enemies/states/KamikazeDyingState.cpp
         src/entities/enemies/states/KamikazeDyingState.h
+        src/entities/enemies/ShellEnemy.cpp
+        src/entities/enemies/ShellEnemy.h
+        src/entities/enemies/states/ShellEnemyState.h
+        src/entities/enemies/states/ShellAdvancingState.cpp
+        src/entities/enemies/states/ShellAdvancingState.h
+        src/entities/enemies/states/ShellTrailingState.cpp
+        src/entities/enemies/states/ShellTrailingState.h
+        src/entities/effects/Sparkle.cpp
+        src/entities/effects/Sparkle.h
 )
 
 target_include_directories(SpaceShooter PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)

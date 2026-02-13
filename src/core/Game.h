@@ -7,8 +7,10 @@
 #include "entities/projectiles/BeamProjectile.h"
 #include "entities/EntityPool.h"
 #include "entities/effects/Explosion.h"
+#include "entities/effects/Sparkle.h"
 #include "entities/enemies/CandyEnemy.h"
 #include "entities/enemies/KamikazeEnemy.h"
+#include "entities/enemies/ShellEnemy.h"
 #include "entities/projectiles/EnemyMissile.h"
 #include "entities/projectiles/EnemyProjectile.h"
 
@@ -43,6 +45,8 @@ private:
     EntityPool<EnemyMissile> enemyMissilePool;
     EntityPool<Explosion> enemyExplosionPool;
     EntityPool<KamikazeEnemy> kamikazeEnemyPool;
+    EntityPool<ShellEnemy> shellEnemyPool;
+    EntityPool<Sparkle> enemySparklePool;
 
     void handleCollisions();
 };
