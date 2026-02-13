@@ -2,6 +2,7 @@
 #define SPACESHOOTER_EXPLOSION_H
 #include "../Entity.h"
 #include "entities/Damageable.h"
+#include <unordered_set>
 
 
 class Explosion : public Entity, public Damageable {
@@ -20,10 +21,12 @@ public:
 
     int getDamage() override;
 
+    int getDamage(Damageable* target) override;
+
 private:
     static constexpr int FRAMES = 6;
+    std::unordered_set<Damageable*> damaged;
     int timeLeft;
-    int damage;
 };
 
 

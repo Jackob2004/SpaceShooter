@@ -7,12 +7,13 @@ Explosion::Explosion() :
     Entity({0, 0, 100, 100},
            new SpriteRenderer(FRAMES, TextureManager::getTexture("assets/effects/explosion.png")),
            {0, 0}),
-    timeLeft(0), damage(25) {
+    timeLeft(0) {
 }
 
 void Explosion::init(const Vector2 spawnPoint) {
     setPosition(spawnPoint);
     timeLeft = FPS / FRAMES_SPEED * FRAMES;
+    damaged.clear();
 }
 
 void Explosion::update() {
@@ -32,9 +33,17 @@ bool Explosion::isAlive() const {
 }
 
 void Explosion::dealDamage(int damage) {
-    this->damage = 0;
 }
 
 int Explosion::getDamage() {
-    return damage;
+    return 0;
+}
+
+int Explosion::getDamage(Damageable* target) {
+    if (damaged.contains(target)) {
+        return 0;
+    }
+    damaged.insert(target);
+
+    return 50;
 }

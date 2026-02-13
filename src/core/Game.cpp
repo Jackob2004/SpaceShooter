@@ -32,7 +32,7 @@ Game::Game() :
         enemy.setTarget(&player);
     });
 
-    shellEnemyPool.create({100, 1});
+    candyEnemyPool.create({100, 1});
 }
 
 void Game::processInput() {
@@ -136,7 +136,7 @@ void Game::handleCollisions() {
     enemyExplosionPool.forEachActiveEntity([this](Explosion& explosion) {
         if (CheckCollisionRecs(player.getHitBox(), explosion.getHitBox())) {
             explosion.dealDamage(player.getDamage());
-            player.dealDamage(explosion.getDamage());
+            player.dealDamage(explosion.getDamage(&player));
         }
     });
 
