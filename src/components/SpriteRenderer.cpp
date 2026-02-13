@@ -1,10 +1,11 @@
 #include "SpriteRenderer.h"
+#include <cassert>
 
 SpriteRenderer::SpriteRenderer(const int totalSprites, const bool sharedTexture, const Texture2D& texture) :
     totalSprites(totalSprites),
     sharedTexture(sharedTexture),
     spritesheet(texture) {
-    if (totalSprites < 1) throw std::invalid_argument("Total sprites must be at least 1");
+    assert(totalSprites >= 1 && "Total sprites must be at least 1");
 
     frameRect = {
         .x = 0,
@@ -40,7 +41,7 @@ void SpriteRenderer::advanceSprite() {
 }
 
 void SpriteRenderer::setSprite(const int spriteIndex) {
-    if (spriteIndex > totalSprites || spriteIndex < 0) throw std::invalid_argument("Invalid sprite index");
+    assert(spriteIndex >= 0 && spriteIndex < totalSprites && "Invalid sprite index" );
     currentFrame = spriteIndex;
     frameRect.x = static_cast<float>(currentFrame) * frameRect.width;
 }
