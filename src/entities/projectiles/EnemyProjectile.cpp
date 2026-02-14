@@ -40,7 +40,7 @@ bool EnemyProjectile::isAlive() const {
     return alive;
 }
 
-void EnemyProjectile::dealDamage(int damage) {
+void EnemyProjectile::takeDamage(int damage) {
     alive = false;
 }
 

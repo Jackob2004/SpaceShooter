@@ -22,7 +22,7 @@ public:
 
     [[nodiscard]] bool isAlive() const override;
 
-    void dealDamage(int damage) override;
+    void takeDamage(int damage) override;
 
     int getDamage() override;
 

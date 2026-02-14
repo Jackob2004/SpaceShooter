@@ -32,7 +32,7 @@ bool Explosion::isAlive() const {
     return timeLeft > 0;
 }
 
-void Explosion::dealDamage(int damage) {
+void Explosion::takeDamage(int damage) {
 }
 
 int Explosion::getDamage() {

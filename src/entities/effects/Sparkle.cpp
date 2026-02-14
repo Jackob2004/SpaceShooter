@@ -35,7 +35,7 @@ bool Sparkle::isAlive() const {
     return timeLeft > 0;
 }
 
-void Sparkle::dealDamage(int damage) {
+void Sparkle::takeDamage(int damage) {
 }
 
 int Sparkle::getDamage() {

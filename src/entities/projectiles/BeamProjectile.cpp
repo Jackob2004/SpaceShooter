@@ -39,7 +39,7 @@ bool BeamProjectile::isAlive() const {
     return alive;
 }
 
-void BeamProjectile::dealDamage(int damage) {
+void BeamProjectile::takeDamage(int damage) {
     alive = false;
 }
 

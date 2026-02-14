@@ -36,7 +36,7 @@ bool ShellEnemy::isAlive() const {
     return health > 0;
 }
 
-void ShellEnemy::dealDamage(const int damage) {
+void ShellEnemy::takeDamage(const int damage) {
     health -= damage;
 }
 

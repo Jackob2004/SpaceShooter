@@ -70,7 +70,7 @@ Vector2 Player::computeProjectilePosition() const {
     return position;
 }
 
-void Player::dealDamage(const int damage) {
+void Player::takeDamage(const int damage) {
     health -= damage;
 }
 

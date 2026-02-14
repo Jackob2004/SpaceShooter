@@ -61,7 +61,7 @@ void CandyEnemy::setHealth(const int updatedHealth) {
     health = updatedHealth;
 }
 
-void CandyEnemy::dealDamage(const int damage) {
+void CandyEnemy::takeDamage(const int damage) {
     health -= damage;
 }
 

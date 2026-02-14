@@ -113,43 +113,43 @@ void Game::handleCollisions() {
         candyEnemyPool.forEachActiveEntity([&beam](CandyEnemy& enemy) {
             if (!beam.isAlive()) return;
             if (CheckCollisionRecs(beam.getHitBox(), enemy.getHitBox())) {
-                beam.dealDamage(enemy.getDamage());
-                enemy.dealDamage(beam.getDamage());
+                beam.takeDamage(enemy.getDamage());
+                enemy.takeDamage(beam.getDamage());
             }
         });
     });
 
     candyEnemyPool.forEachActiveEntity([this](CandyEnemy& enemy) {
         if (CheckCollisionRecs(player.getHitBox(), enemy.getHitBox())) {
-            enemy.dealDamage(player.getDamage());
-            player.dealDamage(enemy.getDamage());
+            enemy.takeDamage(player.getDamage());
+            player.takeDamage(enemy.getDamage());
         }
     });
 
     enemyProjectilePool.forEachActiveEntity([this](EnemyProjectile& projectile) {
         if (CheckCollisionRecs(player.getHitBox(), projectile.getHitBox())) {
-            projectile.dealDamage(player.getDamage());
-            player.dealDamage(projectile.getDamage());
+            projectile.takeDamage(player.getDamage());
+            player.takeDamage(projectile.getDamage());
         }
     });
 
     enemyExplosionPool.forEachActiveEntity([this](Explosion& explosion) {
         if (CheckCollisionRecs(player.getHitBox(), explosion.getHitBox())) {
-            explosion.dealDamage(player.getDamage());
-            player.dealDamage(explosion.getDamage(&player));
+            explosion.takeDamage(player.getDamage());
+            player.takeDamage(explosion.getDamage(&player));
         }
     });
 
     kamikazeEnemyPool.forEachActiveEntity([this](KamikazeEnemy& enemy) {
         if (CheckCollisionRecs(player.getHitBox(), enemy.getHitBox())) {
-            enemy.dealDamage(player.getDamage());
-            player.dealDamage(enemy.getDamage());
+            enemy.takeDamage(player.getDamage());
+            player.takeDamage(enemy.getDamage());
         }
     });
 
     enemySparklePool.forEachActiveEntity([this] (Sparkle& sparkle) {
         if (CheckCollisionRecs(player.getHitBox(), sparkle.getHitBox())) {
-            player.dealDamage(sparkle.getDamage());
+            player.takeDamage(sparkle.getDamage());
         }
     });
 }

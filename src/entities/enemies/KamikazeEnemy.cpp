@@ -38,7 +38,7 @@ bool KamikazeEnemy::isAlive() const {
     return health > 0;
 }
 
-void KamikazeEnemy::dealDamage(const int damage) {
+void KamikazeEnemy::takeDamage(const int damage) {
     health -= damage;
 }
 
