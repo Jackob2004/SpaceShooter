@@ -2,7 +2,7 @@
 
 #include "core/Game.h"
 #include "core/TextureManager.h"
-#include "cmath"
+#include "utils/MathUtils.h"
 
 EnemyMissile::EnemyMissile() :
     Entity({0, 0, 50, 50},
@@ -20,8 +20,7 @@ void EnemyMissile::init(const Vector2 spawnPoint) {
 void EnemyMissile::update() {
     if (!alive) return;
 
-    const float velocityX = AMPLITUDE * FREQUENCY * std::cos(FREQUENCY * lifeTime);
-    setVelocity({velocityX, VELOCITY_Y});
+    setVelocity({MathUtils::computeOscillationSpeed(AMPLITUDE, FREQUENCY, lifeTime), VELOCITY_Y});
     lifeTime += GetFrameTime();
 
     Entity::update();

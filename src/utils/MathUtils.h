@@ -14,6 +14,8 @@ Vector2 normalizeVector(Vector2 vector);
 Vector2 subtrackVectors(Vector2 a, Vector2 b);
 
 Vector2 scaleVector(Vector2 a, float scalar);
+
+float computeOscillationSpeed(float amplitude, float frequency, float lifetime);
 }
 
 #endif //SPACESHOOTER_MATHUTILS_H

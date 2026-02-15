@@ -51,4 +51,8 @@ Vector2 scaleVector(const Vector2 a, const float scalar) {
         .y = a.y * scalar
     };
 }
+
+float computeOscillationSpeed(const float amplitude, const float frequency, const float lifetime) {
+    return amplitude * frequency * std::cos(frequency * lifetime);
+}
 }
