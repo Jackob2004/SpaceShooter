@@ -45,5 +45,5 @@ int Explosion::getDamage(Damageable* target) {
     }
     damaged.insert(target);
 
-    return 50;
+    return 100;
 }

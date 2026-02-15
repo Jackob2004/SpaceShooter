@@ -7,8 +7,10 @@
 #include "Damageable.h"
 #include "Entity.h"
 #include "core/events/Subject.h"
+#include "items/Item.h"
 
 class Player : public Entity, public Subject<Vector2>, public Damageable {
+    friend class MissileItem;
 public:
     Player(float playerWidth, float playerHeight, Vector2 spawPoint);
 
@@ -26,6 +28,8 @@ public:
 
     int getDamage() override;
 
+    void equipItem(Item* newItem);
+
 private:
     enum PlayerSprite {
         IDLE = 1,
@@ -37,8 +41,10 @@ private:
     std::vector<std::unique_ptr<SpriteRenderer> > boosterRenderers;
     Rectangle boostersDestinationRect;
     int health;
+    Item* item;
 
     [[nodiscard]] Vector2 computeProjectilePosition() const;
+    void unequipItem();
 };
 
 

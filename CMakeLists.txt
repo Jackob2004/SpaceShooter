@@ -63,6 +63,14 @@ add_executable(SpaceShooter src/main.cpp
         src/entities/enemies/states/ShellTrailingState.h
         src/entities/effects/Sparkle.cpp
         src/entities/effects/Sparkle.h
+        src/items/MissileItem.cpp
+        src/items/MissileItem.h
+        src/items/Item.cpp
+        src/items/Item.h
+        src/entities/projectiles/PlayerMissile.cpp
+        src/entities/projectiles/PlayerMissile.h
+        src/entities/pickups/RandomPickup.cpp
+        src/entities/pickups/RandomPickup.h
 )
 
 target_include_directories(SpaceShooter PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
