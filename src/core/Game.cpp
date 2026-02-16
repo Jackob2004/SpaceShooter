@@ -3,71 +3,36 @@
 #include <iostream>
 
 #include "items/MissileItem.h"
+#include "entities/effects/Explosion.h"
+#include "entities/effects/Sparkle.h"
+#include "entities/enemies/KamikazeEnemy.h"
+#include "entities/enemies/ShellEnemy.h"
+#include "entities/pickups/RandomPickup.h"
+#include "entities/projectiles/BeamProjectile.h"
+#include "entities/projectiles/EnemyProjectile.h"
+#include "entities/projectiles/EnemyMissile.h"
+#include "entities/projectiles/PlayerMissile.h"
 
 Game::Game() :
     backgroundRenderer(std::make_unique<SpriteRenderer>(2, "assets/background.png")),
     backgroundDestRect({0, 0, SCREEN_WIDTH, SCREEN_HEIGHT}),
     player(50, 50, {static_cast<float>(SCREEN_WIDTH) / 2 - 25, SCREEN_HEIGHT - 100}),
-    beamPool(20),
-    candyEnemyPool(20),
-    enemyProjectilePool(100),
-    enemyMissilePool(50),
-    enemyExplosionPool(50),
-    kamikazeEnemyPool(20),
-    shellEnemyPool(20),
-    enemySparklePool(100),
-    pickupPool(20),
-    playerMissilePool(20),
-    playerExplosionPool(20) {
+    collisionManager(CollisionManager(&player)) {
     player.addObserver(this);
-    enemyMissilePool.forEachEntity([this](EnemyMissile& missile) {
-        missile.addObserver(this);
-    });
-    candyEnemyPool.forEachEntity([this](CandyEnemy& enemy) {
-        enemy.addObserver(this);
-        enemy.setTarget(&player);
-    });
 
-    kamikazeEnemyPool.forEachEntity([this](KamikazeEnemy& enemy) {
-        enemy.setTarget(&player);
-    });
-
-    shellEnemyPool.forEachEntity([this](ShellEnemy& enemy) {
-        enemy.addObserver(this);
-        enemy.setTarget(&player);
-    });
-
-    pickupPool.forEachEntity([this](RandomPickup& pickup) {
-        pickup.addObserver(this);
-    });
-
-    playerMissilePool.forEachEntity([this](PlayerMissile& missile) {
-        missile.addObserver(this);
-    });
-
-    candyEnemyPool.create({100, 1});
-    pickupPool.create({200, 1});
+    initPlayerProjectilePools();
+    initEnemyPools();
+    initEnemyProjectilePools();
 }
 
 void Game::processInput() {
     player.processInput();
 }
 
-// TODO refactor group them so one for loop ought be enough instead of adding update call every new pool
 void Game::update() {
     backgroundRenderer->advanceSprite();
     player.update();
-    beamPool.update();
-    candyEnemyPool.update();
-    enemyProjectilePool.update();
-    enemyMissilePool.update();
-    enemyExplosionPool.update();
-    kamikazeEnemyPool.update();
-    shellEnemyPool.update();
-    enemySparklePool.update();
-    pickupPool.update();
-    playerMissilePool.update();
-    playerExplosionPool.update();
+    poolManager.update();
 
     if (player.getPosition().x + player.getEntityHeight() > SCREEN_WIDTH) {
         player.setPosition({SCREEN_WIDTH - player.getEntityWidth(), SCREEN_HEIGHT - 100});
@@ -75,7 +40,7 @@ void Game::update() {
         player.setPosition({0, SCREEN_HEIGHT - 100});
     }
 
-    handleCollisions();
+    collisionManager.checkCollisions();
 }
 
 void Game::render() {
@@ -86,17 +51,7 @@ void Game::render() {
                    0.0f,
                    WHITE);
     player.render();
-    beamPool.render();
-    candyEnemyPool.render();
-    enemyProjectilePool.render();
-    enemyMissilePool.render();
-    enemyExplosionPool.render();
-    kamikazeEnemyPool.render();
-    shellEnemyPool.render();
-    enemySparklePool.render();
-    pickupPool.render();
-    playerMissilePool.render();
-    playerExplosionPool.render();
+    poolManager.render();
 }
 
 bool Game::isOutOfVerticalBounds(const Vector2 position) {
@@ -108,28 +63,11 @@ bool Game::isOutOfHorizontalBounds(const Vector2 position) {
 }
 
 void Game::onNotify(const Vector2& data, Event event) {
+    if (IEntityPool* pool = poolManager.getPool(event)) {
+        pool->create(data);
+    }
+
     switch (event) {
-        case PLAYER_BEAM_SHOOT:
-            beamPool.create(data);
-            break;
-        case PLAYER_MISSILE_LAUNCHED:
-            playerMissilePool.create(data);
-            break;
-        case PLAYER_MISSILE_EXPLODED:
-            playerExplosionPool.create(data);
-            break;
-        case ENEMY_PROJECTILE_SHOOT:
-            enemyProjectilePool.create(data);
-            break;
-        case ENEMY_MISSILE_LAUNCHED:
-            enemyMissilePool.create(data);
-            break;
-        case ENEMY_MISSILE_EXPLODED:
-            enemyExplosionPool.create(data);
-            break;
-        case ENEMY_SPARKLE_SPAWNED:
-            enemySparklePool.create(data);
-            break;
         case MISSILE_ITEM_PICKED_UP:
             player.equipItem(new MissileItem());
             break;
@@ -141,75 +79,51 @@ void Game::onNotify(const Vector2& data, Event event) {
     }
 }
 
-// TODO refactor move it to separate collision manager, making it more maintainable instead of adding new forEach every time you add new Damageable
-void Game::handleCollisions() {
-    beamPool.forEachActiveEntity([this](BeamProjectile& beam) {
-        candyEnemyPool.forEachActiveEntity([&beam](CandyEnemy& enemy) {
-            if (!beam.isAlive()) return;
-            if (CheckCollisionRecs(beam.getHitBox(), enemy.getHitBox())) {
-                beam.takeDamage(enemy.getDamage());
-                enemy.takeDamage(beam.getDamage());
-            }
-        });
+void Game::initPlayerProjectilePools() {
+    EntityPool<PlayerMissile>* missilePool = poolManager.registerPool<PlayerMissile>(10, PLAYER_MISSILE_LAUNCHED);
+    missilePool->forEachEntity([this](PlayerMissile& missile) {
+        missile.addObserver(this);
     });
 
-    candyEnemyPool.forEachActiveEntity([this](CandyEnemy& enemy) {
-        if (CheckCollisionRecs(player.getHitBox(), enemy.getHitBox())) {
-            enemy.takeDamage(player.getDamage());
-            player.takeDamage(enemy.getDamage());
-        }
+    collisionManager.registerPlayerProjectilePool(
+        missilePool,
+        poolManager.registerPool<Explosion>(10, PLAYER_MISSILE_EXPLODED),
+        poolManager.registerPool<BeamProjectile>(20, PLAYER_BEAM_SHOOT));
+}
+
+void Game::initEnemyPools() {
+    EntityPool<CandyEnemy>* candyPool = poolManager.registerPool<CandyEnemy>(40, CANDY_ENEMY_SPAWNED);
+    candyPool->forEachEntity([this](CandyEnemy& enemy) {
+        enemy.addObserver(this);
+        enemy.setTarget(&player);
     });
 
-    enemyProjectilePool.forEachActiveEntity([this](EnemyProjectile& projectile) {
-        if (CheckCollisionRecs(player.getHitBox(), projectile.getHitBox())) {
-            projectile.takeDamage(player.getDamage());
-            player.takeDamage(projectile.getDamage());
-        }
+    EntityPool<KamikazeEnemy>* kamikazePool = poolManager.registerPool<KamikazeEnemy>(40, KAMIKAZE_ENEMY_SPAWNED);
+    kamikazePool->forEachEntity([this](KamikazeEnemy& enemy) {
+        enemy.setTarget(&player);
     });
 
-    enemyExplosionPool.forEachActiveEntity([this](Explosion& explosion) {
-        if (CheckCollisionRecs(player.getHitBox(), explosion.getHitBox())) {
-            explosion.takeDamage(player.getDamage());
-            player.takeDamage(explosion.getDamage(&player));
-        }
+    EntityPool<ShellEnemy>* shellPool = poolManager.registerPool<ShellEnemy>(40, SHELL_ENEMY_SPAWNED);
+    shellPool->forEachEntity([this](ShellEnemy& enemy) {
+        enemy.addObserver(this);
+        enemy.setTarget(&player);
     });
 
-    kamikazeEnemyPool.forEachActiveEntity([this](KamikazeEnemy& enemy) {
-        if (CheckCollisionRecs(player.getHitBox(), enemy.getHitBox())) {
-            enemy.takeDamage(player.getDamage());
-            player.takeDamage(enemy.getDamage());
-        }
-    });
+    collisionManager.registerEnemyPool(
+        candyPool,
+        kamikazePool,
+        shellPool);
+}
 
-    enemySparklePool.forEachActiveEntity([this](Sparkle& sparkle) {
-        if (CheckCollisionRecs(player.getHitBox(), sparkle.getHitBox())) {
-            player.takeDamage(sparkle.getDamage());
-        }
-    });
+void Game::initEnemyProjectilePools() {
+    EntityPool<EnemyMissile>* enemyMissilePool = poolManager.registerPool<EnemyMissile>(40, ENEMY_MISSILE_LAUNCHED);
+    enemyMissilePool->forEachEntity([this](EnemyMissile& missile) { missile.addObserver(this); });
 
-    pickupPool.forEachActiveEntity([this](RandomPickup& pickup) {
-        if (CheckCollisionRecs(player.getHitBox(), pickup.getHitBox())) {
-            pickup.takeDamage(player.getDamage());
-        }
-    });
-
-    playerMissilePool.forEachActiveEntity([this](PlayerMissile& missile) {
-        candyEnemyPool.forEachActiveEntity([&missile](CandyEnemy& enemy) {
-            if (!missile.isAlive()) return;
-            if (CheckCollisionRecs(missile.getHitBox(), enemy.getHitBox())) {
-                missile.takeDamage(enemy.getDamage());
-                enemy.takeDamage(missile.getDamage());
-            }
-        });
-    });
-
-    playerExplosionPool.forEachActiveEntity([this](Explosion& explosion) {
-        candyEnemyPool.forEachActiveEntity([&explosion](CandyEnemy& enemy) {
-            if (!explosion.isAlive()) return;
-            if (CheckCollisionRecs(explosion.getHitBox(), enemy.getHitBox())) {
-                explosion.takeDamage(enemy.getDamage());
-                enemy.takeDamage(explosion.getDamage(&enemy));
-            }
-        });
-    });
+    collisionManager.registerEnemyProjectilePool(
+        enemyMissilePool,
+        poolManager.registerPool<EnemyProjectile>(200, ENEMY_PROJECTILE_SHOOT),
+        poolManager.registerPool<Explosion>(40, ENEMY_MISSILE_EXPLODED),
+        poolManager.registerPool<Sparkle>(100, ENEMY_SPARKLE_SPAWNED),
+        poolManager.registerPool<RandomPickup>(20, PICKUP_ITEM_SPAWNED)
+        );
 }
