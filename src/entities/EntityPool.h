@@ -4,9 +4,10 @@
 #include <functional>
 
 #include "Entity.h"
+#include "IEntityPool.h"
 
 template <typename TObject>
-class EntityPool {
+class EntityPool : public IEntityPool {
 public:
     explicit EntityPool(const int size) :
         size(size) {
@@ -20,11 +21,11 @@ public:
         entities[size - 1].setNext(nullptr);
     }
 
-    ~EntityPool() {
+    ~EntityPool() override {
         delete[] entities;
     }
 
-    void create(const Vector2 spawnPoint) {
+    void create(const Vector2 spawnPoint) override {
         if (firstAvailable == nullptr) return;
 
         Entity* entity = firstAvailable;
@@ -33,7 +34,7 @@ public:
         entity->init(spawnPoint);
     }
 
-    void update() {
+    void update() override {
         for (int i = 0; i < size; i++) {
             TObject& entity = entities[i];
             if (!entity.isAlive()) continue;
@@ -45,7 +46,7 @@ public:
         }
     }
 
-    void render() {
+    void render() override {
         for (int i = 0; i < size; i++) {
             entities[i].render();
         }
@@ -57,7 +58,7 @@ public:
         }
     }
 
-    void forEachActiveEntity(std::function<void(TObject&)> func) {
+    void forEachActiveEntity(std::function<void(Entity&)> func) override {
         for (int i = 0; i < size; i++) {
             if (entities[i].isAlive()) {
                 func(entities[i]);
