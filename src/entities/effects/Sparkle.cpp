@@ -38,7 +38,7 @@ bool Sparkle::isAlive() const {
 void Sparkle::takeDamage(int damage) {
 }
 
-int Sparkle::getDamage() {
+int Sparkle::getDamage(Damageable* target) {
     if (updatesCounter > DAMAGE_COOLDOWN) {
         updatesCounter = 0;
         return 10;

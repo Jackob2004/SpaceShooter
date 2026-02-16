@@ -41,6 +41,6 @@ void RandomPickup::takeDamage(int damage) {
     notify(getPosition(), options[randomOption].event);
 }
 
-int RandomPickup::getDamage() {
+int RandomPickup::getDamage(Damageable* target) {
     return 0;
 }

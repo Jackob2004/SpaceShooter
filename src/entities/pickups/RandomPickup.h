@@ -5,7 +5,7 @@
 #include "entities/Entity.h"
 
 
-class RandomPickup : public Entity, public Damageable, public Subject<Vector2> {
+class RandomPickup : public Entity, public Subject<Vector2> {
 public:
     RandomPickup();
 
@@ -19,7 +19,7 @@ public:
 
     void takeDamage(int damage) override;
 
-    int getDamage() override;
+    int getDamage(Damageable* target) override;
 
 private:
     explicit RandomPickup(int randomOption);

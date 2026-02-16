@@ -8,9 +8,7 @@ public:
 
     virtual void takeDamage(int damage) = 0;
 
-    virtual int getDamage() = 0;
-
-    virtual int getDamage(Damageable* target) {return 0;}
+    virtual int getDamage(Damageable* target) = 0;
 };
 
 

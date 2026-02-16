@@ -49,6 +49,6 @@ void PlayerMissile::takeDamage(int damage) {
     notify(spawnPoint, PLAYER_MISSILE_EXPLODED);
 }
 
-int PlayerMissile::getDamage() {
+int PlayerMissile::getDamage(Damageable* target) {
     return 0;
 }

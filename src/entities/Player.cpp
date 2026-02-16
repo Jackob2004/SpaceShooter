@@ -84,7 +84,7 @@ void Player::takeDamage(const int damage) {
     health -= damage;
 }
 
-int Player::getDamage() {
+int Player::getDamage(Damageable* target) {
     return 100;
 }
 

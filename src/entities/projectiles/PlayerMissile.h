@@ -4,7 +4,7 @@
 #include "entities/Damageable.h"
 #include "entities/Entity.h"
 
-class PlayerMissile : public Entity, public Damageable, public Subject<Vector2> {
+class PlayerMissile : public Entity,  public Subject<Vector2> {
 public:
     PlayerMissile();
 
@@ -18,7 +18,7 @@ public:
 
     void takeDamage(int damage) override;
 
-    int getDamage() override;
+    int getDamage(Damageable* target) override;
 
 private:
     static constexpr float AMPLITUDE = 15;

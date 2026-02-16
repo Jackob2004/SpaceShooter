@@ -40,7 +40,7 @@ void ShellEnemy::takeDamage(const int damage) {
     health -= damage;
 }
 
-int ShellEnemy::getDamage() {
+int ShellEnemy::getDamage(Damageable* target) {
     return 0;
 }
 

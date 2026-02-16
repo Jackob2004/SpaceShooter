@@ -44,6 +44,6 @@ void EnemyProjectile::takeDamage(int damage) {
     alive = false;
 }
 
-int EnemyProjectile::getDamage() {
+int EnemyProjectile::getDamage(Damageable* target) {
     return 5;
 }

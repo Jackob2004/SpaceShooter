@@ -5,7 +5,7 @@
 #include <unordered_set>
 
 
-class Explosion : public Entity, public Damageable {
+class Explosion : public Entity {
 public:
     Explosion();
 
@@ -18,8 +18,6 @@ public:
     [[nodiscard]] bool isAlive() const override;
 
     void takeDamage(int damage) override;
-
-    int getDamage() override;
 
     int getDamage(Damageable* target) override;
 

@@ -4,7 +4,7 @@
 #include "entities/Entity.h"
 
 
-class Sparkle : public Entity, public Damageable {
+class Sparkle : public Entity {
 public:
     Sparkle();
 
@@ -18,7 +18,7 @@ public:
 
     void takeDamage(int damage) override;
 
-    int getDamage() override;
+    int getDamage(Damageable* target) override;
 
 private:
     static constexpr int FRAMES = 5;

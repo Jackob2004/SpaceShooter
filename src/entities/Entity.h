@@ -1,13 +1,14 @@
 #ifndef SPACESHOOTER_ENTITY_H
 #define SPACESHOOTER_ENTITY_H
 
+#include "Damageable.h"
 #include "components/SpriteRenderer.h"
 
-class Entity {
+class Entity : public Damageable{
 public:
     Entity(Rectangle destinationRect, SpriteRenderer* renderer, Vector2 velocity);
 
-    virtual ~Entity();
+    ~Entity() override;
 
     virtual void update();
 
@@ -34,6 +35,10 @@ public:
     [[nodiscard]] float getEntityHeight() const;
 
     [[nodiscard]] Rectangle getHitBox() const;
+
+    int getDamage(Damageable* target) override { return 0; }
+
+    void takeDamage(int damage) override {}
 
 private:
     union {

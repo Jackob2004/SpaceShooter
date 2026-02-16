@@ -35,10 +35,6 @@ bool Explosion::isAlive() const {
 void Explosion::takeDamage(int damage) {
 }
 
-int Explosion::getDamage() {
-    return 0;
-}
-
 int Explosion::getDamage(Damageable* target) {
     if (damaged.contains(target)) {
         return 0;

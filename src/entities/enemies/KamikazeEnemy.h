@@ -6,7 +6,7 @@
 #include "states/KamikazeEnemyState.h"
 
 
-class KamikazeEnemy : public Entity, public Damageable {
+class KamikazeEnemy : public Entity  {
 public:
     KamikazeEnemy();
 
@@ -20,7 +20,7 @@ public:
 
     void takeDamage(int damage) override;
 
-    int getDamage() override;
+    int getDamage(Damageable* target) override;
 
     void setStateTime(int time);
 

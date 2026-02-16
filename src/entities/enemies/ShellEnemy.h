@@ -7,7 +7,7 @@
 
 class Player;
 
-class ShellEnemy : public Entity, public Damageable, public Subject<Vector2> {
+class ShellEnemy : public Entity,  public Subject<Vector2> {
     friend class ShellTrailingState;
 public:
     ShellEnemy();
@@ -22,7 +22,7 @@ public:
 
     void takeDamage(int damage) override;
 
-    int getDamage() override;
+    int getDamage(Damageable* target) override;
 
     [[nodiscard]] Player* getTarget() const;
 

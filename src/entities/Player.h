@@ -9,7 +9,7 @@
 #include "core/events/Subject.h"
 #include "items/Item.h"
 
-class Player : public Entity, public Subject<Vector2>, public Damageable {
+class Player : public Entity, public Subject<Vector2> {
     friend class MissileItem;
 public:
     Player(float playerWidth, float playerHeight, Vector2 spawPoint);
@@ -26,7 +26,7 @@ public:
 
     void takeDamage(int damage) override;
 
-    int getDamage() override;
+    int getDamage(Damageable* target) override;
 
     void equipItem(Item* newItem);
 

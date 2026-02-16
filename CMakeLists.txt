@@ -71,6 +71,11 @@ add_executable(SpaceShooter src/main.cpp
         src/entities/projectiles/PlayerMissile.h
         src/entities/pickups/RandomPickup.cpp
         src/entities/pickups/RandomPickup.h
+        src/core/PoolManager.cpp
+        src/core/PoolManager.h
+        src/entities/IEntityPool.h
+        src/core/CollisionManager.cpp
+        src/core/CollisionManager.h
 )
 
 target_include_directories(SpaceShooter PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)

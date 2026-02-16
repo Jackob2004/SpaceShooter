@@ -42,7 +42,7 @@ void KamikazeEnemy::takeDamage(const int damage) {
     health -= damage;
 }
 
-int KamikazeEnemy::getDamage() {
+int KamikazeEnemy::getDamage(Damageable* target) {
     return 40;
 }
 

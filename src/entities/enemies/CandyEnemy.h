@@ -7,7 +7,7 @@
 #include "entities/Player.h"
 class CandyEnemyState;
 
-class CandyEnemy : public Entity, public Subject<Vector2>, public Damageable {
+class CandyEnemy : public Entity, public Subject<Vector2> {
     friend class CandyShootingState;
     friend class CandyTargetingState;
 
@@ -24,7 +24,7 @@ public:
 
     void takeDamage(int damage) override;
 
-    int getDamage() override;
+    int getDamage(Damageable* target) override;
 
     void setTarget(Player* player);
 

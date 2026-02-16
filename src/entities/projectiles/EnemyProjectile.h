@@ -4,7 +4,7 @@
 #include "entities/Entity.h"
 
 
-class EnemyProjectile : public Entity, public Damageable {
+class EnemyProjectile : public Entity {
 public:
     EnemyProjectile();
 
@@ -18,7 +18,7 @@ public:
 
     void takeDamage(int damage) override;
 
-    int getDamage() override;
+    int getDamage(Damageable* target) override;
 
 private:
     bool alive;

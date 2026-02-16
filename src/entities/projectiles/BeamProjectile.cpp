@@ -43,6 +43,6 @@ void BeamProjectile::takeDamage(int damage) {
     alive = false;
 }
 
-int BeamProjectile::getDamage() {
+int BeamProjectile::getDamage(Damageable* target) {
     return 40;
 }

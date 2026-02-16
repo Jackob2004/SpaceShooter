@@ -65,6 +65,6 @@ void CandyEnemy::takeDamage(const int damage) {
     health -= damage;
 }
 
-int CandyEnemy::getDamage() {
+int CandyEnemy::getDamage(Damageable* target) {
     return 10;
 }
