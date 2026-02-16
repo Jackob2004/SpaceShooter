@@ -11,6 +11,7 @@
 
 class Player : public Entity, public Subject<Vector2> {
     friend class MissileItem;
+    friend class SquareItem;
 public:
     Player(float playerWidth, float playerHeight, Vector2 spawPoint);
 

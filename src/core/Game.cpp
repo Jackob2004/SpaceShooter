@@ -12,6 +12,8 @@
 #include "entities/projectiles/EnemyProjectile.h"
 #include "entities/projectiles/EnemyMissile.h"
 #include "entities/projectiles/PlayerMissile.h"
+#include "entities/projectiles/SquareProjectile.h"
+#include "items/SquareItem.h"
 
 Game::Game() :
     backgroundRenderer(std::make_unique<SpriteRenderer>(2, "assets/background.png")),
@@ -23,6 +25,7 @@ Game::Game() :
     initPlayerProjectilePools();
     initEnemyPools();
     initEnemyProjectilePools();
+    poolManager.getPool(PICKUP_ITEM_SPAWNED)->create({300, 300});
 }
 
 void Game::processInput() {
@@ -69,7 +72,10 @@ void Game::onNotify(const Vector2& data, Event event) {
 
     switch (event) {
         case MISSILE_ITEM_PICKED_UP:
-            player.equipItem(new MissileItem());
+            player.equipItem(new MissileItem);
+            break;
+        case SQUARED_ITEM_PICKED_UP:
+            player.equipItem(new SquareItem);
             break;
         case PLAYER_ITEM_UNEQUIPPED:
             std::cout << "Player item unequipped" << std::endl;
@@ -88,7 +94,9 @@ void Game::initPlayerProjectilePools() {
     collisionManager.registerPlayerProjectilePool(
         missilePool,
         poolManager.registerPool<Explosion>(10, PLAYER_MISSILE_EXPLODED),
-        poolManager.registerPool<BeamProjectile>(20, PLAYER_BEAM_SHOOT));
+        poolManager.registerPool<BeamProjectile>(20, PLAYER_BEAM_SHOOT),
+        poolManager.registerPool<SquareProjectile>(20, PLAYER_SQUARED_PROJECTILE_SHOOT)
+        );
 }
 
 void Game::initEnemyPools() {
@@ -119,11 +127,14 @@ void Game::initEnemyProjectilePools() {
     EntityPool<EnemyMissile>* enemyMissilePool = poolManager.registerPool<EnemyMissile>(40, ENEMY_MISSILE_LAUNCHED);
     enemyMissilePool->forEachEntity([this](EnemyMissile& missile) { missile.addObserver(this); });
 
+    EntityPool<RandomPickup>* pickupPool = poolManager.registerPool<RandomPickup>(20, PICKUP_ITEM_SPAWNED);
+    pickupPool->forEachEntity([this] (RandomPickup& pickup) { pickup.addObserver(this); });
+
     collisionManager.registerEnemyProjectilePool(
         enemyMissilePool,
+        pickupPool,
         poolManager.registerPool<EnemyProjectile>(200, ENEMY_PROJECTILE_SHOOT),
         poolManager.registerPool<Explosion>(40, ENEMY_MISSILE_EXPLODED),
-        poolManager.registerPool<Sparkle>(100, ENEMY_SPARKLE_SPAWNED),
-        poolManager.registerPool<RandomPickup>(20, PICKUP_ITEM_SPAWNED)
+        poolManager.registerPool<Sparkle>(100, ENEMY_SPARKLE_SPAWNED)
         );
 }

@@ -76,6 +76,10 @@ add_executable(SpaceShooter src/main.cpp
         src/entities/IEntityPool.h
         src/core/CollisionManager.cpp
         src/core/CollisionManager.h
+        src/entities/projectiles/SquareProjectile.cpp
+        src/entities/projectiles/SquareProjectile.h
+        src/items/SquareItem.cpp
+        src/items/SquareItem.h
 )
 
 target_include_directories(SpaceShooter PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
