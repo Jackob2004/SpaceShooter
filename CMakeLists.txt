@@ -80,6 +80,10 @@ add_executable(SpaceShooter src/main.cpp
         src/entities/projectiles/SquareProjectile.h
         src/items/SquareItem.cpp
         src/items/SquareItem.h
+        src/entities/projectiles/CircleProjectile.cpp
+        src/entities/projectiles/CircleProjectile.h
+        src/items/CircleItem.cpp
+        src/items/CircleItem.h
 )
 
 target_include_directories(SpaceShooter PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)

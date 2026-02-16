@@ -9,10 +9,12 @@
 #include "entities/enemies/ShellEnemy.h"
 #include "entities/pickups/RandomPickup.h"
 #include "entities/projectiles/BeamProjectile.h"
+#include "entities/projectiles/CircleProjectile.h"
 #include "entities/projectiles/EnemyProjectile.h"
 #include "entities/projectiles/EnemyMissile.h"
 #include "entities/projectiles/PlayerMissile.h"
 #include "entities/projectiles/SquareProjectile.h"
+#include "items/CircleItem.h"
 #include "items/SquareItem.h"
 
 Game::Game() :
@@ -77,6 +79,9 @@ void Game::onNotify(const Vector2& data, Event event) {
         case SQUARED_ITEM_PICKED_UP:
             player.equipItem(new SquareItem);
             break;
+        case CIRCLE_ITEM_PICKED_UP:
+            player.equipItem(new CircleItem);
+            break;
         case PLAYER_ITEM_UNEQUIPPED:
             std::cout << "Player item unequipped" << std::endl;
             break;
@@ -95,7 +100,8 @@ void Game::initPlayerProjectilePools() {
         missilePool,
         poolManager.registerPool<Explosion>(10, PLAYER_MISSILE_EXPLODED),
         poolManager.registerPool<BeamProjectile>(20, PLAYER_BEAM_SHOOT),
-        poolManager.registerPool<SquareProjectile>(20, PLAYER_SQUARED_PROJECTILE_SHOOT)
+        poolManager.registerPool<SquareProjectile>(20, PLAYER_SQUARED_PROJECTILE_SHOOT),
+        poolManager.registerPool<CircleProjectile>(20, PLAYER_CIRCLE_PROJECTILE_SHOOT)
         );
 }
 
