@@ -11,8 +11,10 @@
 #include "entities/enemies/CandyEnemy.h"
 #include "entities/enemies/KamikazeEnemy.h"
 #include "entities/enemies/ShellEnemy.h"
+#include "entities/pickups/RandomPickup.h"
 #include "entities/projectiles/EnemyMissile.h"
 #include "entities/projectiles/EnemyProjectile.h"
+#include "entities/projectiles/PlayerMissile.h"
 
 constexpr static int SCREEN_WIDTH = 800;
 constexpr static int SCREEN_HEIGHT = 600;
@@ -47,6 +49,9 @@ private:
     EntityPool<KamikazeEnemy> kamikazeEnemyPool;
     EntityPool<ShellEnemy> shellEnemyPool;
     EntityPool<Sparkle> enemySparklePool;
+    EntityPool<RandomPickup> pickupPool;
+    EntityPool<PlayerMissile> playerMissilePool;
+    EntityPool<Explosion> playerExplosionPool;
 
     void handleCollisions();
 };

@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include "items/MissileItem.h"
+
 Game::Game() :
     backgroundRenderer(std::make_unique<SpriteRenderer>(2, "assets/background.png")),
     backgroundDestRect({0, 0, SCREEN_WIDTH, SCREEN_HEIGHT}),
@@ -13,7 +15,10 @@ Game::Game() :
     enemyExplosionPool(50),
     kamikazeEnemyPool(20),
     shellEnemyPool(20),
-    enemySparklePool(100) {
+    enemySparklePool(100),
+    pickupPool(20),
+    playerMissilePool(20),
+    playerExplosionPool(20) {
     player.addObserver(this);
     enemyMissilePool.forEachEntity([this](EnemyMissile& missile) {
         missile.addObserver(this);
@@ -27,18 +32,28 @@ Game::Game() :
         enemy.setTarget(&player);
     });
 
-    shellEnemyPool.forEachEntity([this] (ShellEnemy& enemy) {
+    shellEnemyPool.forEachEntity([this](ShellEnemy& enemy) {
         enemy.addObserver(this);
         enemy.setTarget(&player);
     });
 
+    pickupPool.forEachEntity([this](RandomPickup& pickup) {
+        pickup.addObserver(this);
+    });
+
+    playerMissilePool.forEachEntity([this](PlayerMissile& missile) {
+        missile.addObserver(this);
+    });
+
     candyEnemyPool.create({100, 1});
+    pickupPool.create({200, 1});
 }
 
 void Game::processInput() {
     player.processInput();
 }
 
+// TODO refactor group them so one for loop ought be enough instead of adding update call every new pool
 void Game::update() {
     backgroundRenderer->advanceSprite();
     player.update();
@@ -50,6 +65,9 @@ void Game::update() {
     kamikazeEnemyPool.update();
     shellEnemyPool.update();
     enemySparklePool.update();
+    pickupPool.update();
+    playerMissilePool.update();
+    playerExplosionPool.update();
 
     if (player.getPosition().x + player.getEntityHeight() > SCREEN_WIDTH) {
         player.setPosition({SCREEN_WIDTH - player.getEntityWidth(), SCREEN_HEIGHT - 100});
@@ -76,6 +94,9 @@ void Game::render() {
     kamikazeEnemyPool.render();
     shellEnemyPool.render();
     enemySparklePool.render();
+    pickupPool.render();
+    playerMissilePool.render();
+    playerExplosionPool.render();
 }
 
 bool Game::isOutOfVerticalBounds(const Vector2 position) {
@@ -91,6 +112,12 @@ void Game::onNotify(const Vector2& data, Event event) {
         case PLAYER_BEAM_SHOOT:
             beamPool.create(data);
             break;
+        case PLAYER_MISSILE_LAUNCHED:
+            playerMissilePool.create(data);
+            break;
+        case PLAYER_MISSILE_EXPLODED:
+            playerExplosionPool.create(data);
+            break;
         case ENEMY_PROJECTILE_SHOOT:
             enemyProjectilePool.create(data);
             break;
@@ -103,11 +130,18 @@ void Game::onNotify(const Vector2& data, Event event) {
         case ENEMY_SPARKLE_SPAWNED:
             enemySparklePool.create(data);
             break;
+        case MISSILE_ITEM_PICKED_UP:
+            player.equipItem(new MissileItem());
+            break;
+        case PLAYER_ITEM_UNEQUIPPED:
+            std::cout << "Player item unequipped" << std::endl;
+            break;
         default:
             break;
     }
 }
 
+// TODO refactor move it to separate collision manager, making it more maintainable instead of adding new forEach every time you add new Damageable
 void Game::handleCollisions() {
     beamPool.forEachActiveEntity([this](BeamProjectile& beam) {
         candyEnemyPool.forEachActiveEntity([&beam](CandyEnemy& enemy) {
@@ -147,9 +181,35 @@ void Game::handleCollisions() {
         }
     });
 
-    enemySparklePool.forEachActiveEntity([this] (Sparkle& sparkle) {
+    enemySparklePool.forEachActiveEntity([this](Sparkle& sparkle) {
         if (CheckCollisionRecs(player.getHitBox(), sparkle.getHitBox())) {
             player.takeDamage(sparkle.getDamage());
         }
+    });
+
+    pickupPool.forEachActiveEntity([this](RandomPickup& pickup) {
+        if (CheckCollisionRecs(player.getHitBox(), pickup.getHitBox())) {
+            pickup.takeDamage(player.getDamage());
+        }
+    });
+
+    playerMissilePool.forEachActiveEntity([this](PlayerMissile& missile) {
+        candyEnemyPool.forEachActiveEntity([&missile](CandyEnemy& enemy) {
+            if (!missile.isAlive()) return;
+            if (CheckCollisionRecs(missile.getHitBox(), enemy.getHitBox())) {
+                missile.takeDamage(enemy.getDamage());
+                enemy.takeDamage(missile.getDamage());
+            }
+        });
+    });
+
+    playerExplosionPool.forEachActiveEntity([this](Explosion& explosion) {
+        candyEnemyPool.forEachActiveEntity([&explosion](CandyEnemy& enemy) {
+            if (!explosion.isAlive()) return;
+            if (CheckCollisionRecs(explosion.getHitBox(), enemy.getHitBox())) {
+                explosion.takeDamage(enemy.getDamage());
+                enemy.takeDamage(explosion.getDamage(&enemy));
+            }
+        });
     });
 }
