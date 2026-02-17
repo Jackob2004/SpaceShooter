@@ -92,6 +92,10 @@ add_executable(SpaceShooter src/main.cpp
         src/ui/Display.h
         src/ui/HealthBarDisplay.cpp
         src/ui/HealthBarDisplay.h
+        src/ui/GameOverDisplay.cpp
+        src/ui/GameOverDisplay.h
+        src/ui/GameStartDisplay.cpp
+        src/ui/GameStartDisplay.h
 )
 
 target_include_directories(SpaceShooter PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)

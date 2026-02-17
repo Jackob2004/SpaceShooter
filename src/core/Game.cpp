@@ -19,6 +19,7 @@
 #include "items/SquareItem.h"
 
 Game::Game() :
+    state(MENU),
     backgroundRenderer(std::make_unique<SpriteRenderer>(2, "assets/background.png")),
     backgroundDestRect({0, 0, SCREEN_WIDTH, SCREEN_HEIGHT}),
     player(50, 50, {static_cast<float>(SCREEN_WIDTH) / 2 - 25, SCREEN_HEIGHT - 100}),
@@ -27,43 +28,25 @@ Game::Game() :
     player.addObserver(&heldItemDisplay);
     player.addObserver(&healthBarDisplay);
     wavesManager.addObserver(this);
+    gameStartDisplay.addObserver(this);
 
     initPlayerProjectilePools();
     initEnemyPools();
     initEnemyProjectilePools();
     wavesManager.startWavesDispatch();
+    initGamMethods();
 }
 
 void Game::processInput() {
-    player.processInput();
+    methods[state].processInput();
 }
 
 void Game::update() {
-    backgroundRenderer->advanceSprite();
-    player.update();
-    poolManager.update();
-
-    if (player.getPosition().x + player.getEntityHeight() > SCREEN_WIDTH) {
-        player.setPosition({SCREEN_WIDTH - player.getEntityWidth(), SCREEN_HEIGHT - 100});
-    } else if (player.getPosition().x < 0) {
-        player.setPosition({0, SCREEN_HEIGHT - 100});
-    }
-
-    collisionManager.checkCollisions();
-    wavesManager.update();
+    methods[state].update();
 }
 
 void Game::render() {
-    DrawTexturePro(backgroundRenderer->getTexture(),
-                   backgroundRenderer->getSource(),
-                   backgroundDestRect,
-                   {0, 0},
-                   0.0f,
-                   WHITE);
-    player.render();
-    poolManager.render();
-    heldItemDisplay.render();
-    healthBarDisplay.render();
+    methods[state].render();
 }
 
 bool Game::isOutOfVerticalBounds(const Vector2 position) {
@@ -89,12 +72,92 @@ void Game::onNotify(const Vector2& data, Event event) {
         case CIRCLE_ITEM_PICKED_UP:
             player.equipItem(new CircleItem);
             break;
-        case PLAYER_ITEM_UNEQUIPPED:
-            std::cout << "Player item unequipped" << std::endl;
+        case PLAYER_DIED:
+            state = GAME_OVER;
+            break;
+        case GAME_STARTED:
+            state = PLAYING;
             break;
         default:
             break;
     }
+}
+
+void Game::initGamMethods() {
+    methods[MENU] = {
+        .processInput = [this]() {
+            gameStartDisplay.processInput();
+        },
+
+        .update = [this]() {
+            backgroundRenderer->advanceSprite();
+            gameStartDisplay.update();
+        },
+
+        .render = [this]() {
+            DrawTexturePro(backgroundRenderer->getTexture(),
+                           backgroundRenderer->getSource(),
+                           backgroundDestRect,
+                           {0, 0},
+                           0.0f,
+                           WHITE);
+            gameStartDisplay.render();
+        }
+    };
+
+    methods[PLAYING] = {
+        .processInput = [this]() {
+            player.processInput();
+        },
+
+        .update = [this]() {
+            backgroundRenderer->advanceSprite();
+            player.update();
+            poolManager.update();
+
+            if (player.getPosition().x + player.getEntityHeight() > SCREEN_WIDTH) {
+                player.setPosition({SCREEN_WIDTH - player.getEntityWidth(), SCREEN_HEIGHT - 100});
+            } else if (player.getPosition().x < 0) {
+                player.setPosition({0, SCREEN_HEIGHT - 100});
+            }
+
+            collisionManager.checkCollisions();
+            wavesManager.update();
+        },
+
+        .render = [this]() {
+            DrawTexturePro(backgroundRenderer->getTexture(),
+                           backgroundRenderer->getSource(),
+                           backgroundDestRect,
+                           {0, 0},
+                           0.0f,
+                           WHITE);
+            player.render();
+            poolManager.render();
+            heldItemDisplay.render();
+            healthBarDisplay.render();
+        }
+    };
+
+    methods[GAME_OVER] = {
+        .processInput = []() {
+        },
+
+        .update = [this]() {
+            backgroundRenderer->advanceSprite();
+            gameOverDisplay.update();
+        },
+
+        .render = [this]() {
+            DrawTexturePro(backgroundRenderer->getTexture(),
+                           backgroundRenderer->getSource(),
+                           backgroundDestRect,
+                           {0, 0},
+                           0.0f,
+                           WHITE);
+            gameOverDisplay.render();
+        }
+    };
 }
 
 void Game::initPlayerProjectilePools() {
@@ -144,7 +207,7 @@ void Game::initEnemyProjectilePools() {
     enemyMissilePool->forEachEntity([this](EnemyMissile& missile) { missile.addObserver(this); });
 
     EntityPool<RandomPickup>* pickupPool = poolManager.registerPool<RandomPickup>(20, PICKUP_ITEM_SPAWNED);
-    pickupPool->forEachEntity([this] (RandomPickup& pickup) {
+    pickupPool->forEachEntity([this](RandomPickup& pickup) {
         pickup.addObserver(this);
         pickup.addObserver(&heldItemDisplay);
         pickup.addObserver(&wavesManager);

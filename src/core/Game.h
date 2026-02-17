@@ -7,6 +7,8 @@
 #include "WavesManager.h"
 #include "entities/Player.h"
 #include "components/SpriteRenderer.h"
+#include "ui/GameOverDisplay.h"
+#include "ui/GameStartDisplay.h"
 #include "ui/HealthBarDisplay.h"
 #include "ui/HeldItemDisplay.h"
 
@@ -31,6 +33,20 @@ public:
     void onNotify(const Vector2& data, Event event) override;
 
 private:
+    enum GameState {
+        MENU,
+        PLAYING,
+        GAME_OVER,
+    };
+
+    struct GameMethods {
+        std::function<void()> processInput;
+        std::function<void()> update;
+        std::function<void()> render;
+    };
+
+    GameState state;
+    GameMethods methods[3];
     std::unique_ptr<SpriteRenderer> backgroundRenderer;
     Rectangle backgroundDestRect;
     Player player;
@@ -39,6 +55,10 @@ private:
     WavesManager wavesManager;
     HeldItemDisplay heldItemDisplay;
     HealthBarDisplay healthBarDisplay;
+    GameOverDisplay gameOverDisplay;
+    GameStartDisplay gameStartDisplay;
+
+    void initGamMethods();
 
     void initPlayerProjectilePools();
 
