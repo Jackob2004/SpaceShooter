@@ -1,7 +1,5 @@
 #include "CandyEnemy.h"
 
-#include <iostream>
-
 #include "core/TextureManager.h"
 #include "entities/enemies/states/CandyEnemyState.h"
 #include "entities/enemies/states/CandyAdvancingState.h"
@@ -63,6 +61,10 @@ void CandyEnemy::setHealth(const int updatedHealth) {
 
 void CandyEnemy::takeDamage(const int damage) {
     health -= damage;
+
+    if (!isAlive()) {
+        notify(getPosition(), ENEMY_KILLED);
+    }
 }
 
 int CandyEnemy::getDamage(Damageable* target) {

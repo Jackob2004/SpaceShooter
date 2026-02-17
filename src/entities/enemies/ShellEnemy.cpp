@@ -38,6 +38,10 @@ bool ShellEnemy::isAlive() const {
 
 void ShellEnemy::takeDamage(const int damage) {
     health -= damage;
+
+    if (!isAlive()) {
+        notify(getPosition(), ENEMY_KILLED);
+    }
 }
 
 int ShellEnemy::getDamage(Damageable* target) {

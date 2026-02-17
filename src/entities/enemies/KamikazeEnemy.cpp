@@ -40,6 +40,10 @@ bool KamikazeEnemy::isAlive() const {
 
 void KamikazeEnemy::takeDamage(const int damage) {
     health -= damage;
+
+    if (!isAlive()) {
+        notify(getPosition(), ENEMY_KILLED);
+    }
 }
 
 int KamikazeEnemy::getDamage(Damageable* target) {

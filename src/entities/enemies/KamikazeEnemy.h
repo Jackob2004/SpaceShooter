@@ -6,7 +6,7 @@
 #include "states/KamikazeEnemyState.h"
 
 
-class KamikazeEnemy : public Entity  {
+class KamikazeEnemy : public Entity, public Subject<Vector2> {
 public:
     KamikazeEnemy();
 
