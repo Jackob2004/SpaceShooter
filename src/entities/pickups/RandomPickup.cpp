@@ -1,5 +1,6 @@
 #include "RandomPickup.h"
 
+#include "core/Game.h"
 #include "core/TextureManager.h"
 #include "utils/MathUtils.h"
 
@@ -24,6 +25,11 @@ void RandomPickup::init(const Vector2 spawnPoint) {
 void RandomPickup::update() {
     if (!isAlive()) return;
     Entity::update();
+
+    if (Game::isOutOfVerticalBounds(getPosition())) {
+        pickedUp = true;
+        notify(getPosition(), PICKUP_DIED);
+    }
 }
 
 void RandomPickup::render() {
@@ -39,6 +45,7 @@ void RandomPickup::takeDamage(int damage) {
     if (!isAlive()) return;
     pickedUp = true;
     notify(getPosition(), options[randomOption].event);
+    notify(getPosition(), PICKUP_DIED);
 }
 
 int RandomPickup::getDamage(Damageable* target) {
