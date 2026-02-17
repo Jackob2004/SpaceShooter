@@ -4,9 +4,9 @@
 
 #include "CollisionManager.h"
 #include "PoolManager.h"
+#include "WavesManager.h"
 #include "entities/Player.h"
 #include "components/SpriteRenderer.h"
-#include "entities/enemies/CandyEnemy.h"
 
 constexpr static int SCREEN_WIDTH = 800;
 constexpr static int SCREEN_HEIGHT = 600;
@@ -34,6 +34,7 @@ private:
     Player player;
     PoolManager poolManager;
     CollisionManager collisionManager;
+    WavesManager wavesManager;
 
     void initPlayerProjectilePools();
 

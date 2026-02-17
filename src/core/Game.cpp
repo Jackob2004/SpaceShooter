@@ -14,6 +14,7 @@
 #include "entities/projectiles/EnemyMissile.h"
 #include "entities/projectiles/PlayerMissile.h"
 #include "entities/projectiles/SquareProjectile.h"
+#include "entities/enemies/CandyEnemy.h"
 #include "items/CircleItem.h"
 #include "items/SquareItem.h"
 
@@ -23,11 +24,12 @@ Game::Game() :
     player(50, 50, {static_cast<float>(SCREEN_WIDTH) / 2 - 25, SCREEN_HEIGHT - 100}),
     collisionManager(CollisionManager(&player)) {
     player.addObserver(this);
+    wavesManager.addObserver(this);
 
     initPlayerProjectilePools();
     initEnemyPools();
     initEnemyProjectilePools();
-    poolManager.getPool(PICKUP_ITEM_SPAWNED)->create({300, 300});
+    wavesManager.startWavesDispatch();
 }
 
 void Game::processInput() {
@@ -46,6 +48,7 @@ void Game::update() {
     }
 
     collisionManager.checkCollisions();
+    wavesManager.update();
 }
 
 void Game::render() {
@@ -109,16 +112,19 @@ void Game::initEnemyPools() {
     EntityPool<CandyEnemy>* candyPool = poolManager.registerPool<CandyEnemy>(40, CANDY_ENEMY_SPAWNED);
     candyPool->forEachEntity([this](CandyEnemy& enemy) {
         enemy.addObserver(this);
+        enemy.addObserver(&wavesManager);
         enemy.setTarget(&player);
     });
 
     EntityPool<KamikazeEnemy>* kamikazePool = poolManager.registerPool<KamikazeEnemy>(40, KAMIKAZE_ENEMY_SPAWNED);
     kamikazePool->forEachEntity([this](KamikazeEnemy& enemy) {
+        enemy.addObserver(&wavesManager);
         enemy.setTarget(&player);
     });
 
     EntityPool<ShellEnemy>* shellPool = poolManager.registerPool<ShellEnemy>(40, SHELL_ENEMY_SPAWNED);
     shellPool->forEachEntity([this](ShellEnemy& enemy) {
+        enemy.addObserver(&wavesManager);
         enemy.addObserver(this);
         enemy.setTarget(&player);
     });
@@ -134,7 +140,10 @@ void Game::initEnemyProjectilePools() {
     enemyMissilePool->forEachEntity([this](EnemyMissile& missile) { missile.addObserver(this); });
 
     EntityPool<RandomPickup>* pickupPool = poolManager.registerPool<RandomPickup>(20, PICKUP_ITEM_SPAWNED);
-    pickupPool->forEachEntity([this] (RandomPickup& pickup) { pickup.addObserver(this); });
+    pickupPool->forEachEntity([this] (RandomPickup& pickup) {
+        pickup.addObserver(this);
+        pickup.addObserver(&wavesManager);
+    });
 
     collisionManager.registerEnemyProjectilePool(
         enemyMissilePool,

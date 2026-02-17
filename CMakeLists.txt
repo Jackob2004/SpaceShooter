@@ -84,6 +84,8 @@ add_executable(SpaceShooter src/main.cpp
         src/entities/projectiles/CircleProjectile.h
         src/items/CircleItem.cpp
         src/items/CircleItem.h
+        src/core/WavesManager.cpp
+        src/core/WavesManager.h
 )
 
 target_include_directories(SpaceShooter PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
