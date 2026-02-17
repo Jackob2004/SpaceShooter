@@ -2,10 +2,14 @@
 #define SPACESHOOTER_MATHUTILS_H
 #include <raylib.h>
 
+#include <random>
+
 namespace MathUtils {
 bool isInVerticalRange(Vector2 it, Vector2 targetPosition, float range);
 
 bool isInHorizontalRange(Vector2 it, Vector2 targetPosition, float range);
+
+std::mt19937& getRandomGenerator();
 
 int getRandomInRange(int from, int to);
 

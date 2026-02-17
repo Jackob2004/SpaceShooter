@@ -19,14 +19,19 @@ bool isInHorizontalRange(const Vector2 it, const Vector2 targetPosition, const f
     return isInRange(it.x, targetPosition.x, range, SCREEN_WIDTH);
 }
 
-int getRandomInRange(const int from, const int to) {
-    assert(from < to && "from must be smaller than to");
+std::mt19937& getRandomGenerator() {
     static std::random_device rd; // obtain seed
     static std::mt19937 gen(rd());
 
+    return gen;
+}
+
+int getRandomInRange(const int from, const int to) {
+    assert(from < to && "from must be smaller than to");
+
     std::uniform_int_distribution distrib(from, to);
 
-    return distrib(gen);
+    return distrib(getRandomGenerator());
 }
 
 Vector2 normalizeVector(const Vector2 vector) {
