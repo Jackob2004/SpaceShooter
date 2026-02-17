@@ -8,6 +8,8 @@ public:
     virtual ~ShellEnemyState() = default;
 
     virtual ShellEnemyState* update(ShellEnemy& shellEnemy) = 0;
+
+    virtual void enter(ShellEnemy& shellEnemy) = 0;
 };
 
 

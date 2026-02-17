@@ -5,9 +5,11 @@
 
 class ShellTrailingState : public ShellEnemyState {
 public:
-    explicit ShellTrailingState(ShellEnemy& shellEnemy);
+    explicit ShellTrailingState();
 
     ShellEnemyState* update(ShellEnemy& shellEnemy) override;
+
+    void enter(ShellEnemy& shellEnemy) override;
 
 private:
     static constexpr int TRAILING_GAP = 60;

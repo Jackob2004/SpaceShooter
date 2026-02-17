@@ -7,6 +7,8 @@
 
 
 class KamikazeEnemy : public Entity, public Subject<Vector2> {
+    friend class KamikazeAdvancingState;
+    friend class KamikazeDyingState;
 public:
     KamikazeEnemy();
 

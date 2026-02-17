@@ -10,6 +10,7 @@ void CandyAdvancingState::enter(CandyEnemy& candyEnemy) {
 
 CandyEnemyState* CandyAdvancingState::update(CandyEnemy& candyEnemy) {
     if (Game::isOutOfVerticalBounds(candyEnemy.getPosition())) {
+        candyEnemy.notify(candyEnemy.getPosition(), ENEMY_DIED);
         candyEnemy.setHealth(0);
     }
 

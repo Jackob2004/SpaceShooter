@@ -30,6 +30,8 @@ void KamikazeEnemy::render() {
 }
 
 void KamikazeEnemy::init(const Vector2 spawnPoint) {
+    state = &KamikazeAdvancingState::advancing;
+    state->enter(*this);
     setPosition(spawnPoint);
     health = 100;
 }

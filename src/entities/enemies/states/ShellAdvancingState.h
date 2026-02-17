@@ -5,9 +5,11 @@
 
 class ShellAdvancingState : public ShellEnemyState {
 public:
-    explicit ShellAdvancingState(ShellEnemy& shellEnemy);
+    explicit ShellAdvancingState();
 
     ShellEnemyState* update(ShellEnemy& shellEnemy) override;
+
+    void enter(ShellEnemy& shellEnemy) override;
 
 private:
     static constexpr int MAX_VELOCITY = 120;

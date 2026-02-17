@@ -8,7 +8,8 @@ ShellEnemy::ShellEnemy() :
            new SpriteRenderer(5, TextureManager::getTexture("assets/enemies/shell_enemy.png")),
            {0, 0}),
     health(0),
-    state(new ShellAdvancingState(*this)) {
+    state(new ShellAdvancingState()) {
+    state->enter(*this);
 }
 
 void ShellEnemy::update() {
@@ -19,6 +20,7 @@ void ShellEnemy::update() {
     if (ShellEnemyState* updatedState = state->update(*this); updatedState != nullptr) {
         delete state;
         state = updatedState;
+        state->enter(*this);
     }
 }
 
@@ -28,8 +30,10 @@ void ShellEnemy::render() {
 }
 
 void ShellEnemy::init(const Vector2 spawnPoint) {
-    setPosition(spawnPoint);
+    state = new ShellAdvancingState();
+    state->enter(*this);
     health = 100;
+    setPosition(spawnPoint);
 }
 
 bool ShellEnemy::isAlive() const {

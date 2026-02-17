@@ -3,9 +3,8 @@
 #include "core/Game.h"
 #include "entities/enemies/ShellEnemy.h"
 
-ShellTrailingState::ShellTrailingState(ShellEnemy& shellEnemy) :
+ShellTrailingState::ShellTrailingState() :
     lastTrailingYPosition(0) {
-    shellEnemy.setVelocity({0, 100});
 }
 
 ShellEnemyState* ShellTrailingState::update(ShellEnemy& shellEnemy) {
@@ -16,7 +15,12 @@ ShellEnemyState* ShellTrailingState::update(ShellEnemy& shellEnemy) {
 
     if (Game::isOutOfVerticalBounds(shellEnemy.getPosition())) {
         shellEnemy.setHealth(0);
+        shellEnemy.notify(shellEnemy.getPosition(), ENEMY_DIED);
     }
 
     return nullptr;
+}
+
+void ShellTrailingState::enter(ShellEnemy& shellEnemy) {
+    shellEnemy.setVelocity({0, 100});
 }

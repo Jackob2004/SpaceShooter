@@ -31,6 +31,8 @@ void CandyEnemy::render() {
 }
 
 void CandyEnemy::init(const Vector2 spawnPoint) {
+    state = &CandyEnemyState::advancing;
+    state->enter(*this);
     setPosition(spawnPoint);
     health = 100;
 }

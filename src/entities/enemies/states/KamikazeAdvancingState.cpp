@@ -29,6 +29,7 @@ KamikazeEnemyState* KamikazeAdvancingState::update(KamikazeEnemy& kamikazeEnemy)
 
     if (Game::isOutOfVerticalBounds(kamikazeEnemy.getPosition())) {
         kamikazeEnemy.setHealth(0);
+        kamikazeEnemy.notify(kamikazeEnemy.getPosition(), ENEMY_DIED);
     }
 
     return nullptr;

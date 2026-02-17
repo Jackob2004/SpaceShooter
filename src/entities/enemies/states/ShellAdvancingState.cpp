@@ -5,9 +5,8 @@
 #include "entities/enemies/ShellEnemy.h"
 #include "utils/MathUtils.h"
 
-ShellAdvancingState::ShellAdvancingState(ShellEnemy& shellEnemy) :
+ShellAdvancingState::ShellAdvancingState() :
     currentVelocity(MAX_VELOCITY) {
-    shellEnemy.setVelocity({0, static_cast<float>(currentVelocity)});
 }
 
 ShellEnemyState* ShellAdvancingState::update(ShellEnemy& shellEnemy) {
@@ -16,12 +15,17 @@ ShellEnemyState* ShellAdvancingState::update(ShellEnemy& shellEnemy) {
 
     if (MathUtils::isInHorizontalRange(shellEnemy.getPosition(), shellEnemy.getTarget()->getPosition(), 0.40) &&
         MathUtils::isInVerticalRange(shellEnemy.getPosition(), shellEnemy.getTarget()->getPosition(), 0.40)) {
-        return new ShellTrailingState(shellEnemy);
+        return new ShellTrailingState();
     }
 
     if (Game::isOutOfVerticalBounds(shellEnemy.getPosition())) {
         shellEnemy.setHealth(0);
+        shellEnemy.notify(shellEnemy.getPosition(), ENEMY_DIED);
     }
 
     return nullptr;
+}
+
+void ShellAdvancingState::enter(ShellEnemy& shellEnemy) {
+    shellEnemy.setVelocity({0, static_cast<float>(currentVelocity)});
 }

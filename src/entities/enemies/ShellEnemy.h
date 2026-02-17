@@ -9,6 +9,7 @@ class Player;
 
 class ShellEnemy : public Entity,  public Subject<Vector2> {
     friend class ShellTrailingState;
+    friend class ShellAdvancingState;
 public:
     ShellEnemy();
 

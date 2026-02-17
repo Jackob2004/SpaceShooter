@@ -10,6 +10,7 @@ class CandyEnemyState;
 class CandyEnemy : public Entity, public Subject<Vector2> {
     friend class CandyShootingState;
     friend class CandyTargetingState;
+    friend class CandyAdvancingState;
 
 public:
     CandyEnemy();
