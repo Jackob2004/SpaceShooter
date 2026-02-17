@@ -9,12 +9,14 @@ EnemyMissile::EnemyMissile() :
            new SpriteRenderer(2,
                               TextureManager::getTexture("assets/enemies/projectiles/enemy_missile.png")),
            {0, VELOCITY_Y}),
-    alive(false) {
+    alive(false),
+    lifeTime(0) {
 }
 
 void EnemyMissile::init(const Vector2 spawnPoint) {
     setPosition(spawnPoint);
     alive = true;
+    lifeTime = 0;
 }
 
 void EnemyMissile::update() {

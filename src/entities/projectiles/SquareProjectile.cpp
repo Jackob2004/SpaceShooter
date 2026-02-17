@@ -13,6 +13,7 @@ SquareProjectile::SquareProjectile() :
 void SquareProjectile::init(const Vector2 spawnPoint) {
     setPosition(spawnPoint);
     alive = true;
+    damaged.clear();
 }
 
 void SquareProjectile::update() {

@@ -15,6 +15,7 @@ void Sparkle::init(const Vector2 spawnPoint) {
     setPosition(spawnPoint);
     constexpr int LIFE_CYCLES = 4;
     timeLeft = (FPS / FRAMES_SPEED * FRAMES) * LIFE_CYCLES;
+    updatesCounter = 0;
 }
 
 void Sparkle::update() {

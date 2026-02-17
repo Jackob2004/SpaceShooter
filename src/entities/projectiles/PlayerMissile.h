@@ -24,7 +24,7 @@ private:
     static constexpr float AMPLITUDE = 15;
     static constexpr float FREQUENCY = 5;
     static constexpr float VELOCITY_Y = -160;
-    float lifeTime = 0;
+    float lifeTime;
     bool alive;
 };
 

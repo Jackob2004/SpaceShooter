@@ -20,7 +20,7 @@ private:
     static constexpr float AMPLITUDE = 20;
     static constexpr float FREQUENCY = 4;
     static constexpr float VELOCITY_Y = 100;
-    float lifeTime = 0;
+    float lifeTime;
 };
 
 

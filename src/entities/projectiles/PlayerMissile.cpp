@@ -8,12 +8,14 @@ PlayerMissile::PlayerMissile() :
     Entity({0, 0, 50, 50},
            new SpriteRenderer(2, TextureManager::getTexture("assets/player/projectiles/player_missile.png")),
            {0, VELOCITY_Y}),
-    alive(false) {
+    alive(false),
+    lifeTime(0) {
 }
 
 void PlayerMissile::init(const Vector2 spawnPoint) {
     setPosition(spawnPoint);
     alive = true;
+    lifeTime = 0;
 }
 
 void PlayerMissile::update() {
