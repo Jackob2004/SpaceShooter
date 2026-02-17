@@ -24,6 +24,8 @@ Game::Game() :
     player(50, 50, {static_cast<float>(SCREEN_WIDTH) / 2 - 25, SCREEN_HEIGHT - 100}),
     collisionManager(CollisionManager(&player)) {
     player.addObserver(this);
+    player.addObserver(&heldItemDisplay);
+    player.addObserver(&healthBarDisplay);
     wavesManager.addObserver(this);
 
     initPlayerProjectilePools();
@@ -60,6 +62,8 @@ void Game::render() {
                    WHITE);
     player.render();
     poolManager.render();
+    heldItemDisplay.render();
+    healthBarDisplay.render();
 }
 
 bool Game::isOutOfVerticalBounds(const Vector2 position) {
@@ -142,6 +146,7 @@ void Game::initEnemyProjectilePools() {
     EntityPool<RandomPickup>* pickupPool = poolManager.registerPool<RandomPickup>(20, PICKUP_ITEM_SPAWNED);
     pickupPool->forEachEntity([this] (RandomPickup& pickup) {
         pickup.addObserver(this);
+        pickup.addObserver(&heldItemDisplay);
         pickup.addObserver(&wavesManager);
     });
 

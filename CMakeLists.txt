@@ -86,6 +86,12 @@ add_executable(SpaceShooter src/main.cpp
         src/items/CircleItem.h
         src/core/WavesManager.cpp
         src/core/WavesManager.h
+        src/ui/HeldItemDisplay.cpp
+        src/ui/HeldItemDisplay.h
+        src/ui/Display.cpp
+        src/ui/Display.h
+        src/ui/HealthBarDisplay.cpp
+        src/ui/HealthBarDisplay.h
 )
 
 target_include_directories(SpaceShooter PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)

@@ -1,5 +1,7 @@
 #include "Player.h"
 
+#include <iostream>
+
 Player::Player(const float playerWidth, const float playerHeight, const Vector2 spawPoint) :
     Entity({spawPoint.x, spawPoint.y, playerWidth, playerHeight},
            new SpriteRenderer(3, "assets/player/player_ship.png"),
@@ -82,6 +84,14 @@ void Player::unequipItem() {
 
 void Player::takeDamage(const int damage) {
     health -= damage;
+
+    if (damage > 0) {
+        notify({static_cast<float>(health), 500.0}, PLAYER_DAMAGED);
+    }
+
+    if (!isAlive()) {
+        notify(getPosition(), PLAYER_DIED);
+    }
 }
 
 int Player::getDamage(Damageable* target) {

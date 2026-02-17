@@ -7,6 +7,8 @@
 #include "WavesManager.h"
 #include "entities/Player.h"
 #include "components/SpriteRenderer.h"
+#include "ui/HealthBarDisplay.h"
+#include "ui/HeldItemDisplay.h"
 
 constexpr static int SCREEN_WIDTH = 800;
 constexpr static int SCREEN_HEIGHT = 600;
@@ -35,6 +37,8 @@ private:
     PoolManager poolManager;
     CollisionManager collisionManager;
     WavesManager wavesManager;
+    HeldItemDisplay heldItemDisplay;
+    HealthBarDisplay healthBarDisplay;
 
     void initPlayerProjectilePools();
 
