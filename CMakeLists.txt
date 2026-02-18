@@ -96,6 +96,8 @@ add_executable(SpaceShooter src/main.cpp
         src/ui/GameOverDisplay.h
         src/ui/GameStartDisplay.cpp
         src/ui/GameStartDisplay.h
+        src/core/SoundManager.cpp
+        src/core/SoundManager.h
 )
 
 target_include_directories(SpaceShooter PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
@@ -103,3 +105,4 @@ target_link_libraries(SpaceShooter PRIVATE raylib glfw)
 
 # Add this after your add_executable(...) line
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/sounds DESTINATION ${CMAKE_CURRENT_BINARY_DIR})

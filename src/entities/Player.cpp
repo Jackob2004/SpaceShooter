@@ -8,7 +8,7 @@ Player::Player(const float playerWidth, const float playerHeight, const Vector2 
            {0, 0}),
     playerSprite(IDLE),
     boostersDestinationRect({getPosition().x, getPosition().y, 50, 50}),
-    health(500),
+    health(PLAYER_HEALTH),
     item(nullptr) {
     getRenderer()->setSprite(IDLE);
     boosterRenderers.push_back(std::make_unique<SpriteRenderer>(2, "assets/player/boosters_left.png"));
@@ -28,10 +28,10 @@ void Player::processInput() {
     }
 
     if (IsKeyDown(KEY_A) || IsKeyDown(KEY_KP_4)) {
-        setVelocity({-80, 0});
+        setVelocity({-PLAYER_SPEED, 0});
         playerSprite = FLY_LEFT;
     } else if (IsKeyDown(KEY_D) || IsKeyDown(KEY_KP_6)) {
-        setVelocity({80, 0});
+        setVelocity({PLAYER_SPEED, 0});
         playerSprite = FLY_RIGHT;
     } else {
         playerSprite = IDLE;
@@ -86,7 +86,7 @@ void Player::takeDamage(const int damage) {
     health -= damage;
 
     if (damage > 0) {
-        notify({static_cast<float>(health), 500.0}, PLAYER_DAMAGED);
+        notify({static_cast<float>(health), PLAYER_HEALTH}, PLAYER_DAMAGED);
     }
 
     if (!isAlive()) {

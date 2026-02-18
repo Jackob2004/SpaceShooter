@@ -39,6 +39,8 @@ private:
         FLY_RIGHT = 2
     };
 
+    static constexpr float PLAYER_SPEED = 100;
+    static constexpr int PLAYER_HEALTH = 500;
     PlayerSprite playerSprite;
     std::vector<std::unique_ptr<SpriteRenderer> > boosterRenderers;
     Rectangle boostersDestinationRect;
