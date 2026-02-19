@@ -6,6 +6,7 @@
 
 #include "Damageable.h"
 #include "Entity.h"
+#include "buffs/ActiveBuff.h"
 #include "core/events/Subject.h"
 #include "items/Item.h"
 
@@ -13,6 +14,7 @@ class Player : public Entity, public Subject<Vector2> {
     friend class MissileItem;
     friend class SquareItem;
     friend class CircleItem;
+    friend class HealthBuff;
 public:
     Player(float playerWidth, float playerHeight, Vector2 spawPoint);
 
@@ -32,6 +34,12 @@ public:
 
     void equipItem(Item* newItem);
 
+    void activateBuff(ActiveBuff* buff);
+
+    [[nodiscard]] int getHealth() const;
+
+    void setHealth(int updatedHealth);
+
 private:
     enum PlayerSprite {
         IDLE = 1,
@@ -46,9 +54,11 @@ private:
     Rectangle boostersDestinationRect;
     int health;
     Item* item;
+    ActiveBuff* activeBuff;
 
     [[nodiscard]] Vector2 computeProjectilePosition() const;
     void unequipItem();
+    void deactivateBuff();
 };
 
 

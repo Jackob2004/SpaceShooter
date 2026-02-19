@@ -100,6 +100,12 @@ add_executable(SpaceShooter src/main.cpp
         src/core/SoundManager.h
         src/entities/powerups/RandomPowerup.cpp
         src/entities/powerups/RandomPowerup.h
+        src/buffs/ActiveBuff.cpp
+        src/buffs/ActiveBuff.h
+        src/buffs/HealthBuff.cpp
+        src/buffs/HealthBuff.h
+        src/buffs/ShieldBuff.cpp
+        src/buffs/ShieldBuff.h
 )
 
 target_include_directories(SpaceShooter PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)

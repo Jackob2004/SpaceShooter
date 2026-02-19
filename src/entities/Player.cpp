@@ -2,6 +2,8 @@
 
 #include <iostream>
 
+#include "buffs/HealthBuff.h"
+
 Player::Player(const float playerWidth, const float playerHeight, const Vector2 spawPoint) :
     Entity({spawPoint.x, spawPoint.y, playerWidth, playerHeight},
            new SpriteRenderer(3, "assets/player/player_ship.png"),
@@ -9,7 +11,8 @@ Player::Player(const float playerWidth, const float playerHeight, const Vector2 
     playerSprite(IDLE),
     boostersDestinationRect({getPosition().x, getPosition().y, 50, 50}),
     health(PLAYER_HEALTH),
-    item(nullptr) {
+    item(nullptr),
+    activeBuff(nullptr) {
     getRenderer()->setSprite(IDLE);
     boosterRenderers.push_back(std::make_unique<SpriteRenderer>(2, "assets/player/boosters_left.png"));
     boosterRenderers.push_back(std::make_unique<SpriteRenderer>(2, "assets/player/boosters.png"));
@@ -48,6 +51,10 @@ void Player::update() {
     boosterRenderers[playerSprite]->advanceSprite();
     boostersDestinationRect.x = getPosition().x;
     boostersDestinationRect.y = getPosition().y + getEntityHeight();
+
+    if (activeBuff != nullptr && !activeBuff->update(*this)) {
+        deactivateBuff();
+    }
 }
 
 void Player::render() {
@@ -82,6 +89,11 @@ void Player::unequipItem() {
     notify(getPosition(), PLAYER_ITEM_UNEQUIPPED);
 }
 
+void Player::deactivateBuff() {
+    delete activeBuff;
+    activeBuff = nullptr;
+}
+
 void Player::takeDamage(const int damage) {
     health -= damage;
 
@@ -101,4 +113,17 @@ int Player::getDamage(Damageable* target) {
 void Player::equipItem(Item* newItem) {
     delete item;
     item = newItem;
+}
+
+void Player::activateBuff(ActiveBuff* buff) {
+    delete activeBuff;
+    activeBuff = buff;
+}
+
+int Player::getHealth() const {
+    return health;
+}
+
+void Player::setHealth(const int updatedHealth) {
+    health = std::clamp(updatedHealth, 0, PLAYER_HEALTH);
 }

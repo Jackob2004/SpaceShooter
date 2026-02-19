@@ -10,11 +10,12 @@ HealthBarDisplay::HealthBarDisplay() :
 }
 
 void HealthBarDisplay::onNotify(const Vector2& data, const Event event) {
+    if (event != PLAYER_DAMAGED && event != PLAYER_HEALTH_CHANGED) return;
+
     const float health = data.x;
     const float maxHealth = data.y;
-    if (event == PLAYER_DAMAGED) {
-        int spriteIndex = std::floor((health / maxHealth) * (TOTAL_SPRITES - 1));
-        spriteIndex = (health > 0 && spriteIndex == 0) ? 1 : spriteIndex;
-        getRenderer()->setSprite(std::clamp(spriteIndex, 0, TOTAL_SPRITES - 1));
-    }
+
+    int spriteIndex = std::floor((health / maxHealth) * (TOTAL_SPRITES - 1));
+    spriteIndex = (health > 0 && spriteIndex == 0) ? 1 : spriteIndex;
+    getRenderer()->setSprite(std::clamp(spriteIndex, 0, TOTAL_SPRITES - 1));
 }
