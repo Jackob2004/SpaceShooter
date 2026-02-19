@@ -11,6 +11,7 @@ Player::Player(const float playerWidth, const float playerHeight, const Vector2 
     playerSprite(IDLE),
     boostersDestinationRect({getPosition().x, getPosition().y, 50, 50}),
     health(PLAYER_HEALTH),
+    takenDamageModifier(1),
     item(nullptr),
     activeBuff(nullptr) {
     getRenderer()->setSprite(IDLE);
@@ -90,14 +91,17 @@ void Player::unequipItem() {
 }
 
 void Player::deactivateBuff() {
+    activeBuff->onDeactivate(*this);
     delete activeBuff;
     activeBuff = nullptr;
 }
 
 void Player::takeDamage(const int damage) {
-    health -= damage;
+    const int actualDamage = takenDamageModifier * damage;
+    health -= actualDamage;
+    std::cout << actualDamage << std::endl;
 
-    if (damage > 0) {
+    if (actualDamage > 0) {
         notify({static_cast<float>(health), PLAYER_HEALTH}, PLAYER_DAMAGED);
     }
 
@@ -116,7 +120,10 @@ void Player::equipItem(Item* newItem) {
 }
 
 void Player::activateBuff(ActiveBuff* buff) {
-    delete activeBuff;
+    if (activeBuff != nullptr) {
+        activeBuff->onDeactivate(*this);
+        delete activeBuff;
+    }
     activeBuff = buff;
 }
 
@@ -126,4 +133,8 @@ int Player::getHealth() const {
 
 void Player::setHealth(const int updatedHealth) {
     health = std::clamp(updatedHealth, 0, PLAYER_HEALTH);
+}
+
+void Player::setTakenDamageModifier(const float modifier) {
+    takenDamageModifier = (modifier > 0) ? modifier : 1;
 }

@@ -10,6 +10,8 @@ public:
 
     virtual bool update(Player& player);
 
+    virtual void onDeactivate(Player& player) = 0;
+
 private:
     const float maxTime;
     float timeAlive;

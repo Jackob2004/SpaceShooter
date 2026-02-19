@@ -40,6 +40,8 @@ public:
 
     void setHealth(int updatedHealth);
 
+    void setTakenDamageModifier(float modifier);
+
 private:
     enum PlayerSprite {
         IDLE = 1,
@@ -53,6 +55,7 @@ private:
     std::vector<std::unique_ptr<SpriteRenderer> > boosterRenderers;
     Rectangle boostersDestinationRect;
     int health;
+    float takenDamageModifier;
     Item* item;
     ActiveBuff* activeBuff;
 
