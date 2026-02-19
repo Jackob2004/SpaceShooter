@@ -42,6 +42,10 @@ public:
 
     void setTakenDamageModifier(float modifier);
 
+    void setSpeed(float updatedSpeed);
+
+    [[nodiscard]] float getSpeed() const;
+
 private:
     enum PlayerSprite {
         IDLE = 1,
@@ -55,6 +59,7 @@ private:
     std::vector<std::unique_ptr<SpriteRenderer> > boosterRenderers;
     Rectangle boostersDestinationRect;
     int health;
+    float speed;
     float takenDamageModifier;
     Item* item;
     ActiveBuff* activeBuff;

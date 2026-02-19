@@ -10,3 +10,7 @@ bool ActiveBuff::update(Player& player) {
     timeAlive += GetFrameTime();
     return timeAlive < maxTime;
 }
+
+float ActiveBuff::getTimeAlive() const {
+    return timeAlive;
+}

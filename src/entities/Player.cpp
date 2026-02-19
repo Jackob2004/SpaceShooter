@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "buffs/HealthBuff.h"
+#include "buffs/SpeedBuff.h"
 
 Player::Player(const float playerWidth, const float playerHeight, const Vector2 spawPoint) :
     Entity({spawPoint.x, spawPoint.y, playerWidth, playerHeight},
@@ -11,9 +12,10 @@ Player::Player(const float playerWidth, const float playerHeight, const Vector2 
     playerSprite(IDLE),
     boostersDestinationRect({getPosition().x, getPosition().y, 50, 50}),
     health(PLAYER_HEALTH),
+    speed(PLAYER_SPEED),
     takenDamageModifier(1),
     item(nullptr),
-    activeBuff(nullptr) {
+    activeBuff(new SpeedBuff) {
     getRenderer()->setSprite(IDLE);
     boosterRenderers.push_back(std::make_unique<SpriteRenderer>(2, "assets/player/boosters_left.png"));
     boosterRenderers.push_back(std::make_unique<SpriteRenderer>(2, "assets/player/boosters.png"));
@@ -32,10 +34,10 @@ void Player::processInput() {
     }
 
     if (IsKeyDown(KEY_A) || IsKeyDown(KEY_KP_4)) {
-        setVelocity({-PLAYER_SPEED, 0});
+        setVelocity({-speed, 0});
         playerSprite = FLY_LEFT;
     } else if (IsKeyDown(KEY_D) || IsKeyDown(KEY_KP_6)) {
-        setVelocity({PLAYER_SPEED, 0});
+        setVelocity({speed, 0});
         playerSprite = FLY_RIGHT;
     } else {
         playerSprite = IDLE;
@@ -99,7 +101,6 @@ void Player::deactivateBuff() {
 void Player::takeDamage(const int damage) {
     const int actualDamage = takenDamageModifier * damage;
     health -= actualDamage;
-    std::cout << actualDamage << std::endl;
 
     if (actualDamage > 0) {
         notify({static_cast<float>(health), PLAYER_HEALTH}, PLAYER_DAMAGED);
@@ -137,4 +138,12 @@ void Player::setHealth(const int updatedHealth) {
 
 void Player::setTakenDamageModifier(const float modifier) {
     takenDamageModifier = (modifier > 0) ? modifier : 1;
+}
+
+void Player::setSpeed(const float updatedSpeed) {
+    speed = std::clamp(updatedSpeed, PLAYER_SPEED, PLAYER_SPEED + 100);
+}
+
+float Player::getSpeed() const {
+    return speed;
 }

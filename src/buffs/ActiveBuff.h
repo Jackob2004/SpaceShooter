@@ -12,6 +12,8 @@ public:
 
     virtual void onDeactivate(Player& player) = 0;
 
+    [[nodiscard]] float getTimeAlive() const;
+
 private:
     const float maxTime;
     float timeAlive;
