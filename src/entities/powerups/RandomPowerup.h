@@ -27,7 +27,7 @@ private:
     static constexpr Event POWERUPS[] = {
         SPEED_POWERUP_PICKED_UP,
         HEALTH_POWERUP_PICKED_UP,
-        DAMAGE_POWERUP_PICKED_UP
+        SHIELD_POWERUP_PICKED_UP
     };
 
     int powerupIndex;

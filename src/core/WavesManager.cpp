@@ -10,6 +10,7 @@ WavesManager::WavesManager() :
     currentWave(0),
     enemiesInWave(0),
     pickupsInWave(0),
+    powerupsInWave(0),
     leftInWave(0),
     timeSinceLastDispatch(0) {
 }
@@ -35,7 +36,7 @@ void WavesManager::update() {
 
 void WavesManager::onNotify(const Vector2& data, const Event event) {
     if (currentWave == 0) return;
-    if (event == ENEMY_KILLED ||  event == ENEMY_DIED || event == PICKUP_DIED) {
+    if (event == ENEMY_KILLED || event == ENEMY_DIED || event == PICKUP_DIED || event == POWERUP_DIED) {
         leftInWave--;
         if (leftInWave == 0) {
             nextWave();
@@ -50,7 +51,8 @@ void WavesManager::nextWave() {
     currentWave++;
     enemiesInWave *= DIFFICULTY_MODIFIER;
     pickupsInWave = enemiesInWave / PICKUP_TO_ENEMY;
-    leftInWave = enemiesInWave + pickupsInWave;
+    powerupsInWave = enemiesInWave / POWERUP_TO_ENEMY;
+    leftInWave = enemiesInWave + pickupsInWave + powerupsInWave;
 }
 
 void WavesManager::populateWave() {
@@ -61,6 +63,10 @@ void WavesManager::populateWave() {
 
     for (int i = 0; i < pickupsInWave; i++) {
         wave.push_back(PICKUP_SPAWN_OPTION);
+    }
+
+    for (int i = 0; i < powerupsInWave; i++) {
+        wave.push_back(POWERUP_SPAWN_OPTION);
     }
 
     std::ranges::shuffle(wave, MathUtils::getRandomGenerator());

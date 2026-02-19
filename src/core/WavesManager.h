@@ -24,14 +24,17 @@ private:
         CANDY_ENEMY_SPAWNED
     };
     static constexpr Event PICKUP_SPAWN_OPTION = PICKUP_ITEM_SPAWNED;
+    static constexpr Event POWERUP_SPAWN_OPTION = POWERUP_SPAWNED;
     static constexpr float DIFFICULTY_MODIFIER = 1.5;
     static constexpr int PICKUP_TO_ENEMY = 4;
+    static constexpr int POWERUP_TO_ENEMY = 5;
     static constexpr int BREAK_BETWEEN_DISPATCH = 5;
 
     std::vector<Event> wave;
     int currentWave;
     int enemiesInWave;
     int pickupsInWave;
+    int powerupsInWave;
     int leftInWave;
     float timeSinceLastDispatch;
 

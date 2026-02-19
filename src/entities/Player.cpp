@@ -1,10 +1,5 @@
 #include "Player.h"
 
-#include <iostream>
-
-#include "buffs/HealthBuff.h"
-#include "buffs/SpeedBuff.h"
-
 Player::Player(const float playerWidth, const float playerHeight, const Vector2 spawPoint) :
     Entity({spawPoint.x, spawPoint.y, playerWidth, playerHeight},
            new SpriteRenderer(3, "assets/player/player_ship.png"),
@@ -15,7 +10,7 @@ Player::Player(const float playerWidth, const float playerHeight, const Vector2 
     speed(PLAYER_SPEED),
     takenDamageModifier(1),
     item(nullptr),
-    activeBuff(new SpeedBuff) {
+    activeBuff(nullptr) {
     getRenderer()->setSprite(IDLE);
     boosterRenderers.push_back(std::make_unique<SpriteRenderer>(2, "assets/player/boosters_left.png"));
     boosterRenderers.push_back(std::make_unique<SpriteRenderer>(2, "assets/player/boosters.png"));

@@ -9,6 +9,8 @@ public:
 
     bool update(Player& player) override;
 
+    void onDeactivate(Player& player) override;
+
 private:
     static constexpr int REGENERATION_RATE = 1;
 };

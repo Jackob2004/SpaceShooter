@@ -12,3 +12,6 @@ bool HealthBuff::update(Player& player) {
                   PLAYER_HEALTH_CHANGED);
     return ActiveBuff::update(player);
 }
+
+void HealthBuff::onDeactivate(Player& player) {
+}

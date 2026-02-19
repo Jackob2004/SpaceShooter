@@ -2,6 +2,9 @@
 
 #include <iostream>
 
+#include "buffs/HealthBuff.h"
+#include "buffs/ShieldBuff.h"
+#include "buffs/SpeedBuff.h"
 #include "items/MissileItem.h"
 #include "entities/effects/Explosion.h"
 #include "entities/effects/Sparkle.h"
@@ -36,8 +39,6 @@ Game::Game() :
     initEnemyProjectilePools();
     wavesManager.startWavesDispatch();
     initGamMethods();
-
-    poolManager.getPool(POWERUP_SPAWNED)->create({400, 5});
 }
 
 void Game::processInput() {
@@ -76,13 +77,13 @@ void Game::onNotify(const Vector2& data, Event event) {
             player.equipItem(new CircleItem);
             break;
         case HEALTH_POWERUP_PICKED_UP:
-            std::cout << "Health powerup picked-up" << std::endl;
+            player.activateBuff(new HealthBuff);
             break;
         case SPEED_POWERUP_PICKED_UP:
-            std::cout << "Speed powerup-picked-up" << std::endl;
+            player.activateBuff(new SpeedBuff);
             break;
-        case DAMAGE_POWERUP_PICKED_UP:
-            std::cout << "Damage powerup-picked-up" << std::endl;
+        case SHIELD_POWERUP_PICKED_UP:
+            player.activateBuff(new ShieldBuff);
             break;
         case PLAYER_DIED:
             state = GAME_OVER;
