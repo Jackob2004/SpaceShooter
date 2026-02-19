@@ -98,6 +98,8 @@ add_executable(SpaceShooter src/main.cpp
         src/ui/GameStartDisplay.h
         src/core/SoundManager.cpp
         src/core/SoundManager.h
+        src/entities/powerups/RandomPowerup.cpp
+        src/entities/powerups/RandomPowerup.h
 )
 
 target_include_directories(SpaceShooter PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)

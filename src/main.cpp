@@ -7,6 +7,7 @@
 int main() {
     InitWindow(SCREEN_WIDTH, SCREEN_HEIGHT, "Space Shooter");
     InitAudioDevice();
+
     {
         Game game;
         SoundManager soundManager;

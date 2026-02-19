@@ -15,6 +15,7 @@
 #include "entities/projectiles/PlayerMissile.h"
 #include "entities/projectiles/SquareProjectile.h"
 #include "entities/enemies/CandyEnemy.h"
+#include "entities/powerups/RandomPowerup.h"
 #include "items/CircleItem.h"
 #include "items/SquareItem.h"
 
@@ -35,6 +36,8 @@ Game::Game() :
     initEnemyProjectilePools();
     wavesManager.startWavesDispatch();
     initGamMethods();
+
+    poolManager.getPool(POWERUP_SPAWNED)->create({400, 5});
 }
 
 void Game::processInput() {
@@ -71,6 +74,15 @@ void Game::onNotify(const Vector2& data, Event event) {
             break;
         case CIRCLE_ITEM_PICKED_UP:
             player.equipItem(new CircleItem);
+            break;
+        case HEALTH_POWERUP_PICKED_UP:
+            std::cout << "Health powerup picked-up" << std::endl;
+            break;
+        case SPEED_POWERUP_PICKED_UP:
+            std::cout << "Speed powerup-picked-up" << std::endl;
+            break;
+        case DAMAGE_POWERUP_PICKED_UP:
+            std::cout << "Damage powerup-picked-up" << std::endl;
             break;
         case PLAYER_DIED:
             state = GAME_OVER;
@@ -213,9 +225,16 @@ void Game::initEnemyProjectilePools() {
         pickup.addObserver(&wavesManager);
     });
 
+    EntityPool<RandomPowerup>* powerupPool = poolManager.registerPool<RandomPowerup>(20, POWERUP_SPAWNED);
+    powerupPool->forEachEntity([this](RandomPowerup& powerup) {
+        powerup.addObserver(this);
+        powerup.addObserver(&wavesManager);
+    });
+
     collisionManager.registerEnemyProjectilePool(
         enemyMissilePool,
         pickupPool,
+        powerupPool,
         poolManager.registerPool<EnemyProjectile>(200, ENEMY_PROJECTILE_SHOOT),
         poolManager.registerPool<Explosion>(40, ENEMY_MISSILE_EXPLODED),
         poolManager.registerPool<Sparkle>(100, ENEMY_SPARKLE_SPAWNED)
