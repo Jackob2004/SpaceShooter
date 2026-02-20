@@ -7,7 +7,7 @@ MissileItem::MissileItem() :
 
 bool MissileItem::processInput(Player& player) {
     bool succeeded = true;
-    if (IsKeyPressed(KEY_Q)) {
+    if (IsKeyPressed(KEY_Q) || IsKeyPressed(KEY_DOWN)) {
         const Vector2 missileSpawnPoint = {
             .x = player.getPosition().x,
             .y = player.getPosition().y - player.getEntityHeight()

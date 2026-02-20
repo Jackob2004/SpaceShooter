@@ -8,7 +8,7 @@ CircleItem::CircleItem() :
 
 bool CircleItem::processInput(Player& player) {
     bool succeeded = true;
-    if (IsKeyPressed(KEY_Q)) {
+    if (IsKeyPressed(KEY_Q) || IsKeyPressed(KEY_DOWN)) {
         constexpr float gap = 60;
         Vector2 spawnPoint = {
             .x = player.getPosition().x - gap,

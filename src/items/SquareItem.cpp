@@ -7,7 +7,7 @@ SquareItem::SquareItem() :
 
 bool SquareItem::processInput(Player& player) {
     bool succeeded = true;
-    if (IsKeyPressed(KEY_Q)) {
+    if (IsKeyPressed(KEY_Q) || IsKeyPressed(KEY_DOWN)) {
         const Vector2 squareSpawnPoint = {
             .x = player.getPosition().x,
             .y = player.getPosition().y - player.getEntityHeight() / 2

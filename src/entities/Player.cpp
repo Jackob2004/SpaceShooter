@@ -24,14 +24,14 @@ void Player::processInput() {
         unequipItem();
     }
 
-    if (IsKeyPressed(KEY_SPACE)) {
+    if (IsKeyPressed(KEY_SPACE) || IsKeyPressed(KEY_UP)) {
         notify(computeProjectilePosition(), PLAYER_BEAM_SHOOT);
     }
 
-    if (IsKeyDown(KEY_A) || IsKeyDown(KEY_KP_4)) {
+    if (IsKeyDown(KEY_A) || IsKeyDown(KEY_LEFT)) {
         setVelocity({-speed, 0});
         playerSprite = FLY_LEFT;
-    } else if (IsKeyDown(KEY_D) || IsKeyDown(KEY_KP_6)) {
+    } else if (IsKeyDown(KEY_D) || IsKeyDown(KEY_RIGHT)) {
         setVelocity({speed, 0});
         playerSprite = FLY_RIGHT;
     } else {
