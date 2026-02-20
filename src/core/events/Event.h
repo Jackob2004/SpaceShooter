@@ -31,5 +31,6 @@ enum Event {
     ENEMY_DIED,
     PICKUP_DIED,
     GAME_STARTED,
+    GAME_SCORE_UPDATED,
 };
 #endif //SPACESHOOTER_EVENT_H

@@ -108,6 +108,10 @@ add_executable(SpaceShooter src/main.cpp
         src/buffs/ShieldBuff.h
         src/buffs/SpeedBuff.cpp
         src/buffs/SpeedBuff.h
+        src/ui/DigitDisplay.cpp
+        src/ui/DigitDisplay.h
+        src/ui/ScoreUI.cpp
+        src/ui/ScoreUI.h
 )
 
 target_include_directories(SpaceShooter PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)

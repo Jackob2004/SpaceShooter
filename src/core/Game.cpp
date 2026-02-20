@@ -21,16 +21,19 @@
 #include "entities/powerups/RandomPowerup.h"
 #include "items/CircleItem.h"
 #include "items/SquareItem.h"
+#include "utils/MathUtils.h"
 
 Game::Game() :
     state(MENU),
     backgroundRenderer(std::make_unique<SpriteRenderer>(2, "assets/background.png")),
     backgroundDestRect({0, 0, SCREEN_WIDTH, SCREEN_HEIGHT}),
     player(50, 50, {static_cast<float>(SCREEN_WIDTH) / 2 - 25, SCREEN_HEIGHT - 100}),
+    score(0),
     collisionManager(CollisionManager(&player)) {
     player.addObserver(this);
     player.addObserver(&heldItemDisplay);
     player.addObserver(&healthBarDisplay);
+    this->addObserver(&scoreUI);
     wavesManager.addObserver(this);
     gameStartDisplay.addObserver(this);
 
@@ -91,6 +94,10 @@ void Game::onNotify(const Vector2& data, Event event) {
         case GAME_STARTED:
             state = PLAYING;
             break;
+        case ENEMY_KILLED:
+            score+= 5;
+            notify(score, GAME_SCORE_UPDATED);
+            break;
         default:
             break;
     }
@@ -136,6 +143,7 @@ void Game::initGamMethods() {
 
             collisionManager.checkCollisions();
             wavesManager.update();
+            scoreUI.update();
         },
 
         .render = [this]() {
@@ -149,6 +157,7 @@ void Game::initGamMethods() {
             poolManager.render();
             heldItemDisplay.render();
             healthBarDisplay.render();
+            scoreUI.render();
         }
     };
 
@@ -198,6 +207,7 @@ void Game::initEnemyPools() {
 
     EntityPool<KamikazeEnemy>* kamikazePool = poolManager.registerPool<KamikazeEnemy>(40, KAMIKAZE_ENEMY_SPAWNED);
     kamikazePool->forEachEntity([this](KamikazeEnemy& enemy) {
+        enemy.addObserver(this);
         enemy.addObserver(&wavesManager);
         enemy.setTarget(&player);
     });

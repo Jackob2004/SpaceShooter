@@ -11,12 +11,13 @@
 #include "ui/GameStartDisplay.h"
 #include "ui/HealthBarDisplay.h"
 #include "ui/HeldItemDisplay.h"
+#include "ui/ScoreUI.h"
 
 constexpr static int SCREEN_WIDTH = 800;
 constexpr static int SCREEN_HEIGHT = 600;
 constexpr static int FPS = 60;
 
-class Game : public Observer<Vector2> {
+class Game : public Observer<Vector2>, Subject<int> {
 public:
     Game();
 
@@ -50,6 +51,7 @@ private:
     std::unique_ptr<SpriteRenderer> backgroundRenderer;
     Rectangle backgroundDestRect;
     Player player;
+    int score;
     PoolManager poolManager;
     CollisionManager collisionManager;
     WavesManager wavesManager;
@@ -57,6 +59,7 @@ private:
     HealthBarDisplay healthBarDisplay;
     GameOverDisplay gameOverDisplay;
     GameStartDisplay gameStartDisplay;
+    ScoreUI scoreUI;
 
     void initGamMethods();
 
