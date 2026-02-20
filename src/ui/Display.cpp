@@ -1,7 +1,9 @@
 #include "Display.h"
 
+#include "core/TextureManager.h"
+
 Display::Display(const Rectangle destRect, const int sprites, const char* texturePath) :
-    renderer(new SpriteRenderer(sprites, texturePath)),
+    renderer(new SpriteRenderer(sprites, TextureManager::getTexture(texturePath))),
     destRect(destRect) {
 }
 
