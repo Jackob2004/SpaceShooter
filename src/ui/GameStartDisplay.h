@@ -15,8 +15,6 @@ public:
 private:
     static constexpr float WIDTH = 400;
     static constexpr float HEIGHT = 100;
-
-    void onNotify(const Vector2& data, Event event) override;
 };
 
 

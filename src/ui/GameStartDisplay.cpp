@@ -1,7 +1,5 @@
 #include "GameStartDisplay.h"
 
-#include <iostream>
-
 #include "core/Game.h"
 
 GameStartDisplay::GameStartDisplay() :
@@ -18,7 +16,4 @@ void GameStartDisplay::processInput() {
 
 void GameStartDisplay::update() {
     getRenderer()->advanceSprite();
-}
-
-void GameStartDisplay::onNotify(const Vector2& data, Event event) {
 }

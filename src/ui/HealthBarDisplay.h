@@ -1,9 +1,11 @@
 #ifndef SPACESHOOTER_HEALTHBARDISPLAY_H
 #define SPACESHOOTER_HEALTHBARDISPLAY_H
 #include "Display.h"
+#include "core/events/Event.h"
+#include "core/events/Observer.h"
 
 
-class HealthBarDisplay : public Display {
+class HealthBarDisplay : public Display, public Observer<Vector2> {
 public:
     HealthBarDisplay();
 

@@ -11,6 +11,3 @@ GameOverDisplay::GameOverDisplay() :
 void GameOverDisplay::update() const {
     getRenderer()->advanceSprite();
 }
-
-void GameOverDisplay::onNotify(const Vector2& data, Event event) {
-}

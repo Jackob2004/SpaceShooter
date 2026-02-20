@@ -5,7 +5,7 @@
 #include "Display.h"
 #include "core/events/Observer.h"
 
-class HeldItemDisplay : public Display {
+class HeldItemDisplay : public Display, public Observer<Vector2> {
 public:
     HeldItemDisplay();
 

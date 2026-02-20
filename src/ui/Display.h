@@ -2,15 +2,13 @@
 #define SPACESHOOTER_DISPLAY_H
 #include <raylib.h>
 
-#include "core/events/Observer.h"
+#include "components/SpriteRenderer.h"
 
-class SpriteRenderer;
-
-class Display : public Observer<Vector2> {
+class Display {
 public:
     Display(Rectangle destRect, int sprites, const char* texturePath);
 
-    ~Display() override;
+    ~Display();
 
     void render() const;
 

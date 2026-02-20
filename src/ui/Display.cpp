@@ -1,7 +1,5 @@
 #include "Display.h"
 
-#include "components/SpriteRenderer.h"
-
 Display::Display(const Rectangle destRect, const int sprites, const char* texturePath) :
     renderer(new SpriteRenderer(sprites, texturePath)),
     destRect(destRect) {
