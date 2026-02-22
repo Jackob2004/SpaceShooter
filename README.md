@@ -39,5 +39,6 @@ wasn't causing any bottlenecks.
     <li>Object pool pattern https://gameprogrammingpatterns.com/object-pool.html</li>
     <li>Cpp templates https://stackoverflow.com/questions/495021/why-can-templates-only-be-implemented-in-the-header-file</li>
     <li>Cpp random number https://stackoverflow.com/questions/19665818/generate-random-numbers-using-c11-random-library</li>
+    <li>Enum within a class https://stackoverflow.com/questions/2503807/declaring-an-enum-within-a-class</li>
   </ul>
 </details>
